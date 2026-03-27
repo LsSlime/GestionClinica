@@ -6,21 +6,22 @@ public class Citas {
 
     private int id;
     private Paciente paciente;
-    private Doctor doctor;
+    private Medico medico;
     private Especialidad especialidad;
     private LocalDateTime fechaHora;
-    private String motivo, estado;
+    private String motivo, descripcion, estado;
 
     public Citas() {
     }
 
-    public Citas(int id, Paciente paciente, Doctor doctor, Especialidad especialidad, LocalDateTime fechaHora, String motivo, String estado) {
+    public Citas(int id, Paciente paciente, Medico medico, Especialidad especialidad, LocalDateTime fechaHora, String motivo, String descripcion, String estado) {
         this.id = id;
         this.paciente = paciente;
-        this.doctor = doctor;
+        this.medico = medico;
         this.especialidad = especialidad;
         this.fechaHora = fechaHora;
         this.motivo = motivo;
+        this.descripcion = descripcion;
         this.estado = estado;
     }
 
@@ -40,12 +41,12 @@ public class Citas {
         this.paciente = paciente;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Medico getMedico() {
+        return medico;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setMedico(Medico medico) {
+        this.medico = medico;
     }
 
     public Especialidad getEspecialidad() {
@@ -70,6 +71,14 @@ public class Citas {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getEstado() {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especialidades</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Especialidades</h1>
+            <p class="text-secondary mb-0">Listado general de especialidades registradas.</p>
+        </div>
+        <a th:href="@{/especialidades/nuevo}" class="btn btn-primary">Nueva especialidad</a>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div th:if="${#lists.isEmpty(especialidades)}" class="alert alert-info mb-0">
+                No hay especialidades registradas todavia.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(especialidades)}" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="especialidad : ${especialidades}">
+                        <td th:text="${especialidad.id}">1</td>
+                        <td th:text="${especialidad.nombre}">Cardiologia</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

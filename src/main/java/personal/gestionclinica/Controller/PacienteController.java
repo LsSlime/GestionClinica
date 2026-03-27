@@ -64,7 +64,7 @@ public class PacienteController {
 
             model.addAttribute("paciente", paciente);
             model.addAttribute("error", e.getMessage());
-            return "Formulario_Editar_Paciente";
+            return "Formulario_Crear_Paciente";
         }
     }
 
@@ -75,7 +75,7 @@ public class PacienteController {
             return "redirect:/pacientes";
         }
         model.addAttribute("paciente", paciente);
-        return "Formulario_Editar_Paciente";
+        return "Formulario_Crear_Paciente";
     }
 
     @PostMapping("/pacientes/eliminar/{id}")

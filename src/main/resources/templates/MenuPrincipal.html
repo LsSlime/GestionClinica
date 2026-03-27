@@ -32,7 +32,8 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link active" th:href="@{/menu}">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/pacientes}">Pacientes</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Doctores</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/medicos}">Doctores</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/especialidades}">Especialidades</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Citas</a></li>
         </ul>
       </div>
@@ -53,6 +54,10 @@
               <div class="d-flex flex-wrap gap-2 mt-4">
                 <a th:href="@{/pacientes}" class="btn btn-primary btn-lg">Ver pacientes</a>
                 <a th:href="@{/pacientes/nuevo}" class="btn btn-outline-secondary btn-lg">Dar de alta paciente</a>
+                <a th:href="@{/medicos}" class="btn btn-primary btn-lg">Ver medicos</a>
+                <a th:href="@{/medicos/nuevo}" class="btn btn-outline-secondary btn-lg">Dar de alta medico</a>
+                <a th:href="@{/especialidades}" class="btn btn-primary btn-lg">Ver especialidades</a>
+                <a th:href="@{/especialidades/nuevo}" class="btn btn-outline-secondary btn-lg">Crear especialidad</a>
               </div>
             </div>
             <div class="col-md-5">

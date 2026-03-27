@@ -40,7 +40,7 @@
                     <tr th:each="paciente : ${pacientes}">
                         <td th:text="${paciente.id}">1</td>
                         <td th:text="${paciente.dni}">00000000A</td>
-                        <td th:text="${paciente.nombre + ' ' + paciente.apellido1}">Nombre Apellido</td>
+                        <td th:text="${paciente.nombre + ' ' + paciente.apellido1 + (#strings.isEmpty(paciente.apellido2) ? '' : ' ' + paciente.apellido2)}">Nombre Apellidos</td>
                         <td th:text="${paciente.telefono}">600000000</td>
                         <td th:text="${paciente.email}">correo@ejemplo.com</td>
                         <td class="text-end">
