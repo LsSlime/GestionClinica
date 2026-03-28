@@ -7,22 +7,24 @@ public class Citas {
     private int id;
     private Paciente paciente;
     private Medico medico;
-    private Especialidad especialidad;
     private LocalDateTime fechaHora;
     private String motivo, descripcion, estado;
+    private String diagnostico, tratamiento, observaciones;
 
     public Citas() {
     }
 
-    public Citas(int id, Paciente paciente, Medico medico, Especialidad especialidad, LocalDateTime fechaHora, String motivo, String descripcion, String estado) {
+    public Citas(int id, Paciente paciente, Medico medico, LocalDateTime fechaHora, String motivo, String descripcion, String estado, String diagnostico, String tratamiento, String observaciones) {
         this.id = id;
         this.paciente = paciente;
         this.medico = medico;
-        this.especialidad = especialidad;
         this.fechaHora = fechaHora;
         this.motivo = motivo;
         this.descripcion = descripcion;
         this.estado = estado;
+        this.diagnostico = diagnostico;
+        this.tratamiento = tratamiento;
+        this.observaciones = observaciones;
     }
 
     public int getId() {
@@ -47,14 +49,6 @@ public class Citas {
 
     public void setMedico(Medico medico) {
         this.medico = medico;
-    }
-
-    public Especialidad getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(Especialidad especialidad) {
-        this.especialidad = especialidad;
     }
 
     public LocalDateTime getFechaHora() {
@@ -87,5 +81,29 @@ public class Citas {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public String getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(String tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 }

@@ -27,7 +27,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
 
     @Override
     public void guardar(Medico medico) {
-        String sql = "INSERT INTO medicos (dni, nombre, apellido1, apellido2, telefono, email, id_especialidad, numeroColegiado) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO medicos (dni, nombre, apellido1, apellido2, telefono, email, genero, id_especialidad, numeroColegiado) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             pstmt.setString(1, medico.getDni());
             pstmt.setString(2, medico.getNombre());
@@ -35,8 +35,9 @@ public class MedicoDAOJdbc implements MedicoDAO {
             pstmt.setString(4, medico.getApellido2());
             pstmt.setInt(5, medico.getTelefono());
             pstmt.setString(6, medico.getEmail());
-            pstmt.setInt(7, medico.getEspecialidad().getId());
-            pstmt.setString(8, medico.getNumeroColegiado());
+            pstmt.setString(7, medico.getGenero());
+            pstmt.setInt(8, medico.getEspecialidad().getId());
+            pstmt.setString(9, medico.getNumeroColegiado());
             pstmt.executeUpdate();
             System.out.println("Medico guardado correctamente.");
         } catch (SQLException e) {
@@ -130,6 +131,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
         medico.setApellido2(rs.getString("apellido2"));
         medico.setTelefono(rs.getInt("telefono"));
         medico.setEmail(rs.getString("email"));
+        medico.setGenero(rs.getString("genero"));
         medico.setNumeroColegiado(rs.getString("numeroColegiado"));
         return medico;
     }
