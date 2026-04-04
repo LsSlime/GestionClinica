@@ -11,6 +11,7 @@ public interface MedicoDAO {
     void eliminar (int id);
     Medico obtenerPorId(int id);
     List<Medico> listarTodos();
-
+    List<Medico> listarPorEspecialidad(int especialidadId);
+    Medico ObtenerUsuario (String email, String dni);
 
 }

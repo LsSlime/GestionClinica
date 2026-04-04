@@ -34,7 +34,7 @@
           <li class="nav-item"><a class="nav-link" th:href="@{/pacientes}">Pacientes</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/medicos}">Doctores</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/especialidades}">Especialidades</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Citas</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/citas}">Citas</a></li>
         </ul>
       </div>
     </div>
@@ -58,6 +58,8 @@
                 <a th:href="@{/medicos/nuevo}" class="btn btn-outline-secondary btn-lg">Dar de alta medico</a>
                 <a th:href="@{/especialidades}" class="btn btn-primary btn-lg">Ver especialidades</a>
                 <a th:href="@{/especialidades/nuevo}" class="btn btn-outline-secondary btn-lg">Crear especialidad</a>
+                <a th:href="@{/citas}" class="btn btn-primary btn-lg">Ver citas</a>
+                <a th:href="@{/citas/nueva}" class="btn btn-outline-secondary btn-lg">Agendar cita</a>
               </div>
             </div>
             <div class="col-md-5">
@@ -77,6 +79,29 @@
       </div>
     </div>
   </main>
+
+  <!-- From Uiverse.io by nathann09 -->
+
+  <form class="form">
+    <p class="form-title">Sign in to your account</p>
+    <div class="input-container">
+      <input type="email" placeholder="Enter email">
+      <span>
+          </span>
+    </div>
+    <div class="input-container">
+      <input type="password" placeholder="Enter password">
+    </div>
+    <button type="submit" class="submit">
+      Sign in
+    </button>
+
+    <p class="signup-link">
+      No account?
+      <a href="">Sign up</a>
+    </p>
+  </form>
+
 
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

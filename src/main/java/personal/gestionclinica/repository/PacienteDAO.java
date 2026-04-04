@@ -17,5 +17,6 @@ public interface PacienteDAO {
     void eliminar (int id);
     Paciente obtenerPorId(int id);
     List<Paciente> listarTodos();
+    Paciente ObtenerUsuario(String email, String dni);
 
 }

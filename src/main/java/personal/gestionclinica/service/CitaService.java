@@ -21,6 +21,15 @@ public class CitaService {
     }
 
     public void guardarCita (Citas cita){
+        if (cita == null || cita.getPaciente() == null || cita.getPaciente().getId() <= 0) {
+            throw new IllegalArgumentException("Debes seleccionar un paciente.");
+        }
+        if (cita.getMedico() == null || cita.getMedico().getId() <= 0) {
+            throw new IllegalArgumentException("Debes seleccionar un medico.");
+        }
+        if (cita.getFechaHora() == null) {
+            throw new IllegalArgumentException("La fecha y hora son obligatorias.");
+        }
         citaDAO.guardarCita(cita);
     }
 
@@ -39,6 +48,10 @@ public class CitaService {
 
     public List<Citas> obtenerCitasPorMedico(int idMedico){
         return citaDAO.obtenerCitasPorMedico(idMedico);
+    }
+
+    public List<Citas> listarTodasLasCitas() {
+        return citaDAO.listarTodasLasCitas();
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import personal.gestionclinica.model.Especialidad;
 import personal.gestionclinica.model.Medico;
 import personal.gestionclinica.service.EspecialidadService;
@@ -108,6 +109,12 @@ public class MedicoController {
         }
     }
 
+    @GetMapping("/medicos/por-especialidad/{id}")
+    @ResponseBody
+    public java.util.List<Medico> listarMedicosPorEspecialidad(@PathVariable int id) {
+        return medicoService.listarMedicosPorEspecialidad(id);
+    }
+
     private void cargarEspecialidades(Model model) {
         try {
             model.addAttribute("especialidades", especialidadService.listarTodos());
@@ -128,7 +135,7 @@ public class MedicoController {
     }
 
     private int obtenerEspecialidadId(Medico medico) {
-        if (medico.getEspecialidad() == null || medico.getEspecialidad().getId() <= 0) {
+        if (medico.getEspecialidad() == null || medico.getEspecialidad().getId() == null || medico.getEspecialidad().getId() <= 0) {
             throw new IllegalArgumentException("Debes seleccionar una especialidad.");
         }
         return medico.getEspecialidad().getId();

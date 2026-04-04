@@ -1,5 +1,6 @@
 package personal.gestionclinica.service;
 
+import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Paciente;
 import personal.gestionclinica.repository.PacienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,4 +98,16 @@ public class PacienteService {
             throw new IllegalArgumentException("El telefono es obligatorio.");
         }
     }
+
+    public Paciente obtenerUsuario(String email, String dni) {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingresa el correo electrónico");
+        }
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingresa la contraseña");
+        }
+        return pacienteDAO.ObtenerUsuario(email, dni);
+    }
+
+
 }

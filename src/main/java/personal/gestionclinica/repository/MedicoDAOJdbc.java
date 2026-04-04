@@ -27,7 +27,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
 
     @Override
     public void guardar(Medico medico) {
-        String sql = "INSERT INTO medicos (dni, nombre, apellido1, apellido2, telefono, email, genero, id_especialidad, numeroColegiado) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO medicos (dni, nombre, apellido1, apellido2, telefono, email, genero, id_especialidad, numeroColegiado) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             pstmt.setString(1, medico.getDni());
             pstmt.setString(2, medico.getNombre());
@@ -41,8 +41,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
             pstmt.executeUpdate();
             System.out.println("Medico guardado correctamente.");
         } catch (SQLException e) {
-            System.out.println("Error al querer guardar al medico.");
-            e.printStackTrace();
+            throw new IllegalStateException("Error al guardar el medico: " + e.getMessage(), e);
         }
     }
 
@@ -61,8 +60,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
             pstmt.executeUpdate();
             System.out.println("Medico actualizado correctamente.");
         } catch (SQLException e) {
-            System.out.println("Error al querer actualizar al medico.");
-            e.printStackTrace();
+            throw new IllegalStateException("Error al actualizar el medico: " + e.getMessage(), e);
         }
     }
 
@@ -75,8 +73,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
             pstmt.executeUpdate();
             System.out.println("Medico eliminado correctamente.");
         } catch (SQLException e) {
-            System.out.println("Error al querer eliminar al medico.");
-            e.printStackTrace();
+            throw new IllegalStateException("Error al eliminar el medico: " + e.getMessage(), e);
         }
     }
 
@@ -92,8 +89,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al querer obtener el medico por id.");
-            e.printStackTrace();
+            throw new IllegalStateException("Error al obtener el medico por id: " + e.getMessage(), e);
         }
         return medico;
     }
@@ -110,8 +106,24 @@ public class MedicoDAOJdbc implements MedicoDAO {
             }
             System.out.println("Medicos listados correctamente.");
         } catch (SQLException e) {
-            System.out.println("Error al querer listar los medicos.");
-            e.printStackTrace();
+            throw new IllegalStateException("Error al listar los medicos: " + e.getMessage(), e);
+        }
+        return medicos;
+    }
+
+    @Override
+    public List<Medico> listarPorEspecialidad(int especialidadId) {
+        List<Medico> medicos = new ArrayList<>();
+        String sql = "SELECT m.*, e.id especialidad_id, e.nombre especialidad_nombre FROM medicos m LEFT JOIN especialidades e ON m.id_especialidad = e.id WHERE m.id_especialidad = ?";
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, especialidadId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    medicos.add(mapearMedico(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al listar los medicos por especialidad: " + e.getMessage(), e);
         }
         return medicos;
     }

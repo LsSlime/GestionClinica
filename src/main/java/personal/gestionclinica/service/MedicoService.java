@@ -4,6 +4,7 @@ package personal.gestionclinica.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Medico;
 import personal.gestionclinica.repository.MedicoDAO;
 
@@ -38,5 +39,24 @@ public class MedicoService {
     public List<Medico> listarTodosLosMedicos() {
         return medicoDAO.listarTodos();
     }
+
+    public List<Medico> listarMedicosPorEspecialidad(int especialidadId) {
+        if (especialidadId <= 0) {
+            throw new IllegalArgumentException("La especialidad no es valida.");
+        }
+        return medicoDAO.listarPorEspecialidad(especialidadId);
+    }
+
+
+    public Medico obtenerUsuario(String email, String dni) {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingresa el correo electrónico");
+        }
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingresa la contraseña");
+        }
+        return medicoDAO.ObtenerUsuario(email, dni);
+    }
+
 
 }
