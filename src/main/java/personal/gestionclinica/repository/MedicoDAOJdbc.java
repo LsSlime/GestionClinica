@@ -3,6 +3,7 @@ package personal.gestionclinica.repository;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Especialidad;
 import personal.gestionclinica.model.Medico;
 
@@ -126,6 +127,30 @@ public class MedicoDAOJdbc implements MedicoDAO {
             throw new IllegalStateException("Error al listar los medicos por especialidad: " + e.getMessage(), e);
         }
         return medicos;
+    }
+
+
+    @Override
+    public Medico ObtenerUsuario (String email, String dni) {
+        String sql = "SELECT m.*, e.id AS especialidad_id, e.nombre AS especialidad_nombre " +
+                "FROM medicos m " +
+                "LEFT JOIN especialidades e ON m.id_especialidad = e.id " +
+                "WHERE m.email = ? AND m.dni = ?";
+        Medico medico = null;
+
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, dni);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    medico = mapearMedico(rs);
+                }
+            }
+        } catch (SQLException e){
+            throw new IllegalStateException("Error al obtener el medico: " + e.getMessage(), e);
+        }
+        return medico;
     }
 
     private Medico mapearMedico(ResultSet rs) throws SQLException {

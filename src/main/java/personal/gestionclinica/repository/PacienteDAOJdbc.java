@@ -1,5 +1,6 @@
 package personal.gestionclinica.repository;
 
+import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Paciente;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -128,6 +129,26 @@ public class PacienteDAOJdbc implements PacienteDAO {
             mensaje = e.getMessage();
         }
         return mensaje == null || mensaje.isBlank() ? "detalle no disponible." : mensaje;
+    }
+
+    @Override
+    public Paciente ObtenerUsuario (String email, String dni) {
+        String sql = "SELECT * FROM pacientes WHERE email = ? AND dni = ?";
+        Paciente paciente = null;
+
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, dni);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    paciente = mapearPaciente(rs);
+                }
+            }
+        } catch (SQLException e){
+            throw new IllegalStateException("Error al obtener el paciente: " + e.getMessage(), e);
+        }
+        return paciente;
     }
 
     private Paciente mapearPaciente(ResultSet rs) throws SQLException {

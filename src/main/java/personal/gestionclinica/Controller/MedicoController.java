@@ -33,6 +33,11 @@ public class MedicoController {
         return "Menu_Crear_Medico";
     }
 
+    @GetMapping("/medicos/menu")
+    public String mostrarMenuMedico() {
+        return "Menu_Medicos";
+    }
+
     @GetMapping("/medicos/nuevo")
     public String mostrarFormulario(Model model) {
         Medico medico = new Medico();

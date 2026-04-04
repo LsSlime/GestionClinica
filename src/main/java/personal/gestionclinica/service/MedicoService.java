@@ -49,12 +49,6 @@ public class MedicoService {
 
 
     public Medico obtenerUsuario(String email, String dni) {
-        if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ingresa el correo electrónico");
-        }
-        if (dni == null || dni.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ingresa la contraseña");
-        }
         return medicoDAO.ObtenerUsuario(email, dni);
     }
 

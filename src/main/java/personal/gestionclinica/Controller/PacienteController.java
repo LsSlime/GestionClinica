@@ -21,15 +21,17 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @GetMapping({"/", "/menu"})
-    public String mostrarMenuPrincipal() {
-        return "MenuPrincipal";
-    }
+
 
     @GetMapping("/pacientes")
     public String listarPacientes(Model model) {
         model.addAttribute("pacientes", pacienteService.listarTodosLosPacientes());
         return "Menu_Crear_Paciente";
+    }
+
+    @GetMapping("/paciente/menu")
+    public String mostrarMenuPaciente() {
+        return "Menu_Pacientes";
     }
 
     @GetMapping("/pacientes/nuevo")

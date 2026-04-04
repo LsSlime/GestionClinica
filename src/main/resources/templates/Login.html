@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+<div class="container">
+<form class="form" th:action="@{/login}" method="post">
+  <p class="form-title">Ingresar al Sistema</p>
+  <div class="input-container">
+    <label for="email" class="form-label">Correo electronico</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Correo electronico" required>
+    <span>
+    </span>
+  </div>
+
+  <div class="input-container">
+    <label for="dni" class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="dni" name="dni" placeholder="Contraseña" required>
+  </div>
+  <button type="submit" class="submit">
+    Entrar
+  </button>
+
+<!--  <p class="signup-link">-->
+<!--    No account?-->
+<!--    <a href="">Sign up</a>-->
+<!--  </p>-->
+</form>
+</div>
+
+</body>
+</html>

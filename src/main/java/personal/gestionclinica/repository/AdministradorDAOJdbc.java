@@ -39,8 +39,8 @@ public class AdministradorDAOJdbc implements AdministradorDAO{
             } catch (SQLException e){
                 throw new IllegalStateException("Error al obtener el administrador: " + e.getMessage(), e);
             }
-            return administrador;
-        }
+        return administrador;
+    }
 
     private Administrador mapearAdministrador(ResultSet rs) throws SQLException {
         Administrador administrador = new Administrador();
