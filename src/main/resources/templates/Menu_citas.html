@@ -26,7 +26,6 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Paciente</th>
                         <th>Medico</th>
                         <th>Especialidad</th>
@@ -37,12 +36,11 @@
                     </thead>
                     <tbody>
                     <tr th:each="cita : ${citas}">
-                        <td th:text="${cita.id}">1</td>
                         <td th:text="${cita.paciente.nombre + ' ' + cita.paciente.apellido1}">Paciente</td>
                         <td th:text="${cita.medico.nombre + ' ' + cita.medico.apellido1}">Medico</td>
                         <td th:text="${cita.medico.especialidad.nombre}">Especialidad</td>
                         <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">01/01/2026 10:00</td>
-                        <td th:text="${cita.estado}">pendiente</td>
+                        <td th:text="${cita.estado}">programada</td>
                         <td class="text-end">
                             <form th:if="${cita.estado != 'cancelada'}" th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>

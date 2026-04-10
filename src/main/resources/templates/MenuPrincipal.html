@@ -31,10 +31,7 @@
       <div class="collapse navbar-collapse" id="menuPrincipal">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link active" th:href="@{/menu}">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/pacientes}">Pacientes</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/medicos}">Doctores</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/especialidades}">Especialidades</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/citas}">Citas</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/login}">Iniciar Sesion</a></li>
         </ul>
       </div>
     </div>
@@ -51,17 +48,6 @@
               <p class="lead text-secondary">
                 Gestiona pacientes, doctores y citas desde una interfaz moderna hecha con Bootstrap.
               </p>
-              <div class="d-flex flex-wrap gap-2 mt-4">
-                <a th:href="@{/pacientes}" class="btn btn-primary btn-lg">Ver pacientes</a>
-                <a th:href="@{/pacientes/nuevo}" class="btn btn-outline-secondary btn-lg">Dar de alta paciente</a>
-                <a th:href="@{/medicos}" class="btn btn-primary btn-lg">Ver medicos</a>
-                <a th:href="@{/medicos/nuevo}" class="btn btn-outline-secondary btn-lg">Dar de alta medico</a>
-                <a th:href="@{/especialidades}" class="btn btn-primary btn-lg">Ver especialidades</a>
-                <a th:href="@{/especialidades/nuevo}" class="btn btn-outline-secondary btn-lg">Crear especialidad</a>
-                <a th:href="@{/citas}" class="btn btn-primary btn-lg">Ver citas</a>
-                <a th:href="@{/citas/nueva}" class="btn btn-outline-secondary btn-lg">Agendar cita</a>
-                <a th:href="@{/login}" class="btn btn-primary btn-lg">Iniciar Sesion</a>
-              </div>
             </div>
             <div class="col-md-5">
               <div class="card border-0 bg-primary-subtle rounded-4">

@@ -28,7 +28,6 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>DNI</th>
                         <th>Nombre</th>
                         <th>Telefono</th>
@@ -40,7 +39,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="medico : ${medicos}">
-                        <td th:text="${medico.id}">1</td>
                         <td th:text="${medico.dni}">00000000A</td>
                         <td th:text="${medico.nombre + ' ' + medico.apellido1 + (#strings.isEmpty(medico.apellido2) ? '' : ' ' + medico.apellido2)}">Nombre Apellidos</td>
                         <td th:text="${medico.telefono}">600000000</td>
@@ -48,6 +46,9 @@
                         <td th:text="${medico.especialidad.nombre}">Especialidad</td>
                         <td th:text="${medico.numeroColegiado}">12345</td>
                         <td class="text-end">
+                            <a th:href="@{/citas/medico/{id}(id=${medico.id})}" class="btn btn-sm btn-outline-info me-1">
+                                Ver Citas
+                            </a>
                             <a href="/medicos" th:href="@{/medicos/editar/{id}(id=${medico.id})}" class="btn btn-sm btn-outline-primary">
                                 Editar
                             </a>

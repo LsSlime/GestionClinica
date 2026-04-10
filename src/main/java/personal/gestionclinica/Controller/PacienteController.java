@@ -1,6 +1,9 @@
 package personal.gestionclinica.Controller;
 
+import jakarta.servlet.http.HttpSession;
 import personal.gestionclinica.model.Paciente;
+import personal.gestionclinica.model.Usuario;
+import personal.gestionclinica.service.CitaService;
 import personal.gestionclinica.service.PacienteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PacienteController {
 
     private final PacienteService pacienteService;
+    private final CitaService citaService;
 
     @Autowired
-    public PacienteController(PacienteService pacienteService) {
+    public PacienteController(PacienteService pacienteService, CitaService citaService) {
         this.pacienteService = pacienteService;
+        this.citaService = citaService;
     }
 
 
@@ -30,7 +35,19 @@ public class PacienteController {
     }
 
     @GetMapping("/paciente/menu")
-    public String mostrarMenuPaciente() {
+    public String mostrarMenuPaciente(HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        
+        if (usuarioLogueado == null || !"PACIENTE".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
+        
+        Paciente paciente = pacienteService.buscarPacientePorId(usuarioLogueado.getId());
+        if (paciente != null) {
+            model.addAttribute("paciente", paciente);
+            model.addAttribute("citas", citaService.obtenerCitasPorPaciente(paciente.getId()));
+        }
+        
         return "Menu_Pacientes";
     }
 

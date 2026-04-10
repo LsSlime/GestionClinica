@@ -1,10 +1,353 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .card-menu {
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .card-menu:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+        }
+
+        .card-menu .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .card-menu i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-menu h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-menu p {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .btn-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .header-section h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+
+        .btn-logout {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+    </style>
 </head>
-<body>
-Prueba 1 para admin
+<body class="bg-light">
+
+<!-- Header -->
+<div class="header-section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-1">
+                    <i class="bi bi-shield-lock"></i> Panel Administrativo
+                </h1>
+                <p class="mb-0">Gestión completa de la clínica</p>
+            </div>
+            <a th:href="@{/menu}" class="btn btn-outline-light">
+                <i class="bi bi-house"></i> Inicio
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <!-- Sección: Gestión de Pacientes -->
+    <div class="section-title">
+        <i class="bi bi-people"></i> Gestión de Pacientes
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Card: Ver Pacientes -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-person-check text-primary"></i>
+                    <h5>Ver Pacientes</h5>
+                    <p>Listado completo de todos los pacientes registrados</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/pacientes}" class="btn btn-primary btn-sm btn-action">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Crear Paciente -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-person-plus text-success"></i>
+                    <h5>Nuevo Paciente</h5>
+                    <p>Registrar un nuevo paciente en el sistema</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/pacientes/nuevo}" class="btn btn-success btn-sm btn-action">
+                            <i class="bi bi-plus-circle"></i> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Gestión de Médicos -->
+    <div class="section-title">
+        <i class="bi bi-hospital"></i> Gestión de Médicos
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Card: Ver Médicos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-clipboard2-pulse text-info"></i>
+                    <h5>Ver Médicos</h5>
+                    <p>Listado de todos los médicos disponibles</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/medicos}" class="btn btn-info btn-sm btn-action text-white">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Crear Médico -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-plus-circle text-warning"></i>
+                    <h5>Nuevo Médico</h5>
+                    <p>Registrar un nuevo médico en el sistema</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/medicos/nuevo}" class="btn btn-warning btn-sm btn-action">
+                            <i class="bi bi-plus-circle"></i> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Gestión de Especialidades -->
+    <div class="section-title">
+        <i class="bi bi-bookmark-heart"></i> Gestión de Especialidades
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Card: Ver Especialidades -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-list-ul text-danger"></i>
+                    <h5>Ver Especialidades</h5>
+                    <p>Listado de especialidades disponibles</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/especialidades}" class="btn btn-danger btn-sm btn-action">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Crear Especialidad -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-plus-lg text-secondary"></i>
+                    <h5>Nueva Especialidad</h5>
+                    <p>Crear una nueva especialidad médica</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/especialidades/nuevo}" class="btn btn-secondary btn-sm btn-action">
+                            <i class="bi bi-plus-circle"></i> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Gestión de Citas -->
+    <div class="section-title">
+        <i class="bi bi-calendar-event"></i> Gestión de Citas e Historial Médico
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Card: Ver Todas las Citas -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-calendar-check text-primary"></i>
+                    <h5>Ver Todas las Citas</h5>
+                    <p>Listado de todas las citas programadas</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/citas}" class="btn btn-primary btn-sm btn-action">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Historial de Pacientes -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-person-lines-fill text-info"></i>
+                    <h5>Historial de Pacientes</h5>
+                    <p>Ver citas de pacientes específicos</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/pacientes}" class="btn btn-info btn-sm btn-action text-white">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Historial de Médicos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-clipboard2-pulse text-warning"></i>
+                    <h5>Historial de Médicos</h5>
+                    <p>Ver citas asignadas a médicos específicos</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/medicos}" class="btn btn-warning btn-sm btn-action">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Agendar Nueva Cita -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-calendar-plus text-success"></i>
+                    <h5>Nueva Cita</h5>
+                    <p>Agendar una nueva cita médica</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/citas/nueva}" class="btn btn-success btn-sm btn-action">
+                            <i class="bi bi-plus-circle"></i> Agendar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Acciones Rápidas -->
+    <div class="section-title">
+        <i class="bi bi-lightning"></i> Acciones Rápidas
+    </div>
+
+    <div class="row g-4">
+        <!-- Card: Resumen General -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-pie-chart text-info"></i>
+                    <h5>Ir al Inicio</h5>
+                    <p>Regresa al menú principal de la aplicación</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/menu}" class="btn btn-info btn-sm btn-action text-white">
+                            <i class="bi bi-house"></i> Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Salir -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-menu bg-white shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-box-arrow-right text-danger"></i>
+                    <h5>Cerrar Sesión</h5>
+                    <p>Salir de la plataforma de administrador</p>
+                    <div class="btn-wrapper">
+                        <a th:href="@{/logout}" class="btn btn-danger btn-sm btn-action">
+                            <i class="bi bi-power"></i> Salir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 Sistema de Gestión Clínica - Todos los derechos reservados</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

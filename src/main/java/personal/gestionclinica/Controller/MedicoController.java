@@ -1,5 +1,6 @@
 package personal.gestionclinica.Controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import personal.gestionclinica.model.Especialidad;
 import personal.gestionclinica.model.Medico;
+import personal.gestionclinica.model.Usuario;
+import personal.gestionclinica.service.CitaService;
 import personal.gestionclinica.service.EspecialidadService;
 import personal.gestionclinica.service.MedicoService;
 
@@ -20,11 +23,13 @@ public class MedicoController {
 
     private final MedicoService medicoService;
     private final EspecialidadService especialidadService;
+    private final CitaService citaService;
 
     @Autowired
-    public MedicoController(MedicoService medicoService, EspecialidadService especialidadService) {
+    public MedicoController(MedicoService medicoService, EspecialidadService especialidadService, CitaService citaService) {
         this.medicoService = medicoService;
         this.especialidadService = especialidadService;
+        this.citaService = citaService;
     }
 
     @GetMapping("/medicos")
@@ -34,7 +39,19 @@ public class MedicoController {
     }
 
     @GetMapping("/medicos/menu")
-    public String mostrarMenuMedico() {
+    public String mostrarMenuMedico(HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        
+        if (usuarioLogueado == null || !"MEDICO".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
+        
+        Medico medico = medicoService.obtenerMedicoPorId(usuarioLogueado.getId());
+        if (medico != null) {
+            model.addAttribute("medico", medico);
+            model.addAttribute("citas", citaService.obtenerCitasPorMedico(medico.getId()));
+        }
+        
         return "Menu_Medicos";
     }
 

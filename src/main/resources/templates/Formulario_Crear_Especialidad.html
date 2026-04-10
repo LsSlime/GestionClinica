@@ -3,34 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Especialidad</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Crear Especialidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .form-body {
+            padding: 3rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            color: #0066cc;
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .alert-danger {
+            background: #ffe6e6;
+            color: #c00;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #0066cc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .info-box i {
+            color: #0066cc;
+            margin-right: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .btn-submit {
+            flex: 1;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+            border-color: #ccc;
+        }
+
+        @media (max-width: 576px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .form-body {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h1 class="h3 mb-4">Agregar especialidad</h1>
+<body>
 
-                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h1><i class="bi bi-bookmark-heart"></i> Nueva Especialidad</h1>
+            <p>Crea una nueva especialidad médica en el sistema</p>
+        </div>
 
-                    <form th:action="@{/especialidades/guardar}" method="post">
-                        <div class="mb-4">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" th:value="${especialidad.nombre}" required>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                            <a th:href="@{/especialidades}" class="btn btn-secondary">Cancelar</a>
-                        </div>
-                    </form>
-                </div>
+        <div class="form-body">
+            <div th:if="${error}" class="alert alert-danger">
+                <i class="bi bi-exclamation-circle"></i>
+                <span th:text="${error}"></span>
             </div>
+
+            <div class="info-box">
+                <i class="bi bi-info-circle"></i>
+                Las especialidades son categorías médicas que los médicos pueden atender.
+            </div>
+
+            <form th:action="@{/especialidades/guardar}" method="post">
+                <div class="form-group">
+                    <label for="nombre" class="form-label">
+                        <i class="bi bi-file-text"></i> Nombre de la Especialidad
+                    </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                           th:value="${especialidad.nombre}"
+                           placeholder="Ej: Cardiología, Pediatría, Dermatología..."
+                           required>
+                    <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.5rem;">
+                        Ingresa el nombre único de la especialidad
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-check-circle"></i> Guardar Especialidad
+                    </button>
+                    <a th:href="@{/especialidades}" class="btn-cancel">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 </body>
 </html>

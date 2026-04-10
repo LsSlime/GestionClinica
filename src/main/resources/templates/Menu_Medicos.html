@@ -1,10 +1,406 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Médico - Mis Citas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .header-medico {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .perfil-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .perfil-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 1rem;
+        }
+
+        .perfil-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-right: 1.5rem;
+        }
+
+        .perfil-info h3 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .perfil-info p {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .info-item p {
+            margin: 0.5rem 0 0 0;
+            color: #212529;
+        }
+
+        .citas-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cita-card {
+            background: white;
+            border-left: 5px solid #28a745;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cita-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cita-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .cita-paciente {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #212529;
+        }
+
+        .estado-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .estado-programada {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .estado-completada {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .estado-cancelada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .cita-detalle {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .detalle-item {
+            font-size: 0.9rem;
+        }
+
+        .detalle-label {
+            font-weight: 600;
+            color: #6c757d;
+        }
+
+        .detalle-valor {
+            color: #212529;
+            margin-top: 0.25rem;
+        }
+
+        .acciones-cita {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn-cita {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #dee2e6;
+        }
+
+        .navbar-menu {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #28a745;
+        }
+    </style>
 </head>
-<body>
-prueba para medicos
+<body class="bg-light">
+
+<!-- Header -->
+<div class="header-medico">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-1">
+                    <i class="bi bi-stethoscope"></i> Portal del Médico
+                </h1>
+                <p class="mb-0">Gestión de tus citas y pacientes</p>
+            </div>
+            <div>
+                <a th:href="@{/menu}" class="btn btn-outline-light me-2">
+                    <i class="bi bi-house"></i> Inicio
+                </a>
+                <a th:href="@{/logout}" class="btn btn-light">
+                    <i class="bi bi-power"></i> Salir
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navbar de opciones -->
+<div class="navbar-menu">
+    <div class="container">
+        <div class="nav-links">
+            <a href="#perfil">Mi Perfil</a>
+            <a href="#citas">Mis Citas</a>
+            <a th:href="@{/menu}">Volver al Inicio</a>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <!-- Sección: Mi Perfil -->
+    <div id="perfil" class="perfil-card" th:if="${medico}">
+        <div class="perfil-header">
+            <div class="perfil-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <div class="perfil-info">
+                <h3 th:text="${medico.nombre} + ' ' + ${medico.apellido1} + ' ' + ${medico.apellido2}">
+                    Nombre del Médico
+                </h3>
+                <p th:text="${medico.especialidad.nombre}" class="text-success">
+                    Especialidad
+                </p>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Correo Electrónico</label>
+                <p th:text="${medico.email}">correo@ejemplo.com</p>
+            </div>
+            <div class="info-item">
+                <label>Teléfono</label>
+                <p th:text="${medico.telefono}">600000000</p>
+            </div>
+            <div class="info-item">
+                <label>DNI</label>
+                <p th:text="${medico.dni}">00000000A</p>
+            </div>
+            <div class="info-item">
+                <label>Número de Colegiado</label>
+                <p th:text="${medico.numeroColegiado}">12345678</p>
+            </div>
+            <div class="info-item">
+                <label>Especialidad</label>
+                <p th:text="${medico.especialidad.nombre}">Especialidad</p>
+            </div>
+            <div class="info-item">
+                <label>Género</label>
+                <p th:text="${medico.genero}">Masculino</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Mis Citas -->
+    <div id="citas" class="citas-section">
+        <h2 class="section-title">
+            <i class="bi bi-calendar-check"></i> Mis Citas Agendadas
+        </h2>
+
+        <!-- Estado vacío -->
+        <div th:if="${#lists.isEmpty(citas)}" class="card bg-white border-0 shadow-sm">
+            <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+                <h4>No hay citas agendadas</h4>
+                <p>Por el momento no tienes citas programadas. Cuando se agende una cita contigo aparecerá aquí.</p>
+            </div>
+        </div>
+
+        <!-- Listado de citas -->
+        <div th:unless="${#lists.isEmpty(citas)}">
+            <div th:each="cita : ${citas}" class="cita-card">
+                <div class="cita-header">
+                    <div>
+                        <div class="cita-paciente">
+                            <i class="bi bi-person-circle"></i>
+                            <span th:text="${cita.paciente.nombre} + ' ' + ${cita.paciente.apellido1}">
+                                Nombre Paciente
+                            </span>
+                        </div>
+                        <small class="text-muted" th:text="'DNI: ' + ${cita.paciente.dni}">DNI</small>
+                    </div>
+                    <span class="estado-badge"
+                          th:classappend="${cita.estado == null or cita.estado == 'programada' or cita.estado == 'pendiente' ? 'estado-programada' : cita.estado == 'completada' ? 'estado-completada' : 'estado-cancelada'}"
+                          th:text="${cita.estado != null ? #strings.capitalize(cita.estado) : 'Programada'}">
+                        Programada
+                    </span>
+                </div>
+
+                <div class="cita-detalle">
+                    <div class="detalle-item">
+                        <div class="detalle-label">
+                            <i class="bi bi-calendar3"></i> Fecha y Hora
+                        </div>
+                        <div class="detalle-valor"
+                             th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">
+                            01/01/2026 10:00
+                        </div>
+                    </div>
+
+                    <div class="detalle-item">
+                        <div class="detalle-label">
+                            <i class="bi bi-stethoscope"></i> Especialidad
+                        </div>
+                        <div class="detalle-valor" th:text="${cita.medico.especialidad.nombre}">
+                            Especialidad
+                        </div>
+                    </div>
+
+                    <div class="detalle-item">
+                        <div class="detalle-label">
+                            <i class="bi bi-chat-dots"></i> Motivo
+                        </div>
+                        <div class="detalle-valor" th:text="${cita.motivo}">
+                            Motivo de la cita
+                        </div>
+                    </div>
+
+                    <div class="detalle-item">
+                        <div class="detalle-label">
+                            <i class="bi bi-telephone"></i> Teléfono Paciente
+                        </div>
+                        <div class="detalle-valor" th:text="${cita.paciente.telefono}">
+                            600000000
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción si existe -->
+                <div th:if="${cita.descripcion}" class="mt-2 p-2 bg-light rounded">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle"></i> Descripción:
+                    </small>
+                    <p class="mb-0" th:text="${cita.descripcion}">Descripción de la cita</p>
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones-cita" th:if="${cita.estado != 'cancelada'}">
+                    <a th:href="@{/citas/completar/{id}(id=${cita.id})}" class="btn btn-success btn-cita me-2"
+                       th:if="${cita.estado == null or cita.estado == 'programada' or cita.estado == 'pendiente'}">
+                        <i class="bi bi-check-circle"></i> Completar Cita
+                    </a>
+                    <form th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
+                          onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
+                        <button type="submit" class="btn btn-danger btn-cita">
+                            <i class="bi bi-x-circle"></i> Cancelar Cita
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 Sistema de Gestión Clínica - Todos los derechos reservados</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

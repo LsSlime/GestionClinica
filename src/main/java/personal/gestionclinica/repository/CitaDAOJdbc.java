@@ -24,7 +24,7 @@ public class CitaDAOJdbc implements CitaDAO {
 
     @Override
     public void guardarCita(Citas citas) {
-        String sql = "INSERT INTO citas (id_paciente, id_medico, fecha_cita, motivo, descripcion) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO citas (id_paciente, id_medico, fecha_cita, motivo, descripcion, estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             pstmt.setInt(1, citas.getPaciente().getId());
@@ -32,6 +32,7 @@ public class CitaDAOJdbc implements CitaDAO {
             pstmt.setTimestamp(3, java.sql.Timestamp.valueOf(citas.getFechaHora()));
             pstmt.setString(4, citas.getMotivo());
             pstmt.setString(5, citas.getDescripcion());
+            pstmt.setString(6, "programada");
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("Error al guardar la cita: " + e.getMessage(), e);
@@ -118,6 +119,7 @@ public class CitaDAOJdbc implements CitaDAO {
                 SELECT
                 c.id, c.fecha_cita, c.motivo, c.descripcion, c.estado, c.diagnostico, c.tratamiento, c.observaciones,
                 p.id AS id_paciente, p.nombre AS nombre_paciente, p.apellido1 AS apellido1_paciente,
+                p.apellido2 AS apellido2_paciente, p.dni AS dni_paciente, p.telefono AS telefono_paciente,
                 m.id AS id_medico, m.nombre AS nombre_medico, m.apellido1 AS apellido1_medico,
                 e.nombre AS nombre_especialidad
                 FROM citas c
@@ -135,6 +137,9 @@ public class CitaDAOJdbc implements CitaDAO {
         paciente.setId(rs.getInt("id_paciente"));
         paciente.setNombre(rs.getString("nombre_paciente"));
         paciente.setApellido1(rs.getString("apellido1_paciente"));
+        paciente.setApellido2(rs.getString("apellido2_paciente"));
+        paciente.setDni(rs.getString("dni_paciente"));
+        paciente.setTelefono(rs.getInt("telefono_paciente"));
 
         Medico medico = new Medico();
         medico.setId(rs.getInt("id_medico"));

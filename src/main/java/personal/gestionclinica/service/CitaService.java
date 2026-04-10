@@ -35,7 +35,16 @@ public class CitaService {
 
 
     public void completarCita (Citas cita){
-    citaDAO.completarCita(cita);
+        if (cita == null || cita.getId() <= 0) {
+            throw new IllegalArgumentException("La cita a completar no es valida.");
+        }
+        if (cita.getTratamiento() == null || cita.getTratamiento().isBlank()) {
+            throw new IllegalArgumentException("Debes indicar el tratamiento aplicado.");
+        }
+        if (cita.getObservaciones() == null || cita.getObservaciones().isBlank()) {
+            throw new IllegalArgumentException("Debes indicar las observaciones de la consulta.");
+        }
+        citaDAO.completarCita(cita);
     }
 
     public void cancelarCita (int id){
