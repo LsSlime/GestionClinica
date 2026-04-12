@@ -66,7 +66,7 @@ public class LoginController {
     @GetMapping("/logout")
     public String cerrarSesion(HttpSession session) {
         session.invalidate();
-        return "redirect:/Login";
+        return "redirect:/login";
     }
 
     private String redirigirSegunRol(Usuario usuario) {

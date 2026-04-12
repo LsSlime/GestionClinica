@@ -19,9 +19,10 @@ public class EspecialidadDAOJdbc implements EspecialidadDAO {
 
     @Override
     public void guardar(Especialidad especialidad) {
-        String sql = "INSERT INTO especialidades (nombre) values (?)";
+        String sql = "INSERT INTO especialidades (nombre, imagen_url) values (?, ?)";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
             pstmt.setString(1, especialidad.getNombre());
+            pstmt.setString(2, especialidad.getImagenUrl());
 
             int filasAfectadas = pstmt.executeUpdate();
             if (filasAfectadas == 0) {
@@ -35,13 +36,14 @@ public class EspecialidadDAOJdbc implements EspecialidadDAO {
     @Override
     public List<Especialidad> listarTodos() {
         List<Especialidad> especialidades = new ArrayList<>();
-        String sql = "SELECT id, nombre FROM especialidades";
+        String sql = "SELECT id, nombre, imagen_url FROM especialidades";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Especialidad especialidad = new Especialidad();
                 especialidad.setId(rs.getInt("id"));
                 especialidad.setNombre(rs.getString("nombre"));
+                especialidad.setImagenUrl(rs.getString("imagen_url"));
                 especialidades.add(especialidad);
             }
         } catch (SQLException e) {
@@ -52,7 +54,7 @@ public class EspecialidadDAOJdbc implements EspecialidadDAO {
 
     @Override
     public Especialidad obtenerPorId(int id) {
-        String sql = "SELECT id, nombre FROM especialidades WHERE id = ?";
+        String sql = "SELECT id, nombre, imagen_url FROM especialidades WHERE id = ?";
         Especialidad especialidad = null;
 
         try(PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
@@ -62,6 +64,7 @@ public class EspecialidadDAOJdbc implements EspecialidadDAO {
                     especialidad = new Especialidad();
                     especialidad.setId(rs.getInt("id"));
                     especialidad.setNombre(rs.getString("nombre"));
+                    especialidad.setImagenUrl(rs.getString("imagen_url"));
                 }
             }
         } catch (SQLException e) {
