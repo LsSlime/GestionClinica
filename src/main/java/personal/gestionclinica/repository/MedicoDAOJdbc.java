@@ -3,7 +3,6 @@ package personal.gestionclinica.repository;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Especialidad;
 import personal.gestionclinica.model.Medico;
 

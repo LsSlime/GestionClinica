@@ -1,6 +1,5 @@
 package personal.gestionclinica.service;
 
-import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Paciente;
 import personal.gestionclinica.repository.PacienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;

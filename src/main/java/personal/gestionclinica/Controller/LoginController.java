@@ -33,7 +33,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String mostrarLogin(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario != null) {
             return redirigirSegunRol (usuario);
         }
@@ -79,6 +79,6 @@ public class LoginController {
         if("PACIENTE".equals(usuario.getRol())) {
              return "redirect:/paciente/menu";
         }
-        return "redirect:/Login";
+        return "redirect:/login";
     }
 }

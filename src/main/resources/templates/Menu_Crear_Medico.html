@@ -4,75 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Crear Medico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/Menu_Admin.css}">
 </head>
 
 <body class="bg-light">
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-semibold d-flex align-items-center" th:href="@{/menu}">
-            <img src="/imgs/LogoTipoFINAL.png" alt="Logo Gestor Clínico" style="height: 40px; margin-right: 10px;">
+            <img th:src="@{/imgs/LogoTipoFINAL.png}" alt="Logo" style="height:40px; margin-right:10px;">
             Gestor Salud
         </a>
+        <div class="ms-auto d-flex gap-2">
+            <a th:href="@{/admin/menu}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-arrow-left"></i> Panel Admin
+            </a>
+            <a th:href="@{/logout}" class="btn btn-light btn-sm">
+                <i class="bi bi-power"></i> Salir
+            </a>
+        </div>
     </div>
 </nav>
 
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 mb-1">Medicos</h1>
-            <p class="text-secondary mb-0">Listado general de medicos registrados.</p>
+<!-- Header -->
+<div class="header-section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-1"><i class="bi bi-hospital-fill"></i> Gestión de Médicos</h1>
+                <p class="mb-0 opacity-75">Listado del equipo médico registrado en el sistema</p>
+            </div>
+            <a th:href="@{/medicos/nuevo}" class="btn btn-light fw-semibold">
+                <i class="bi bi-person-plus-fill me-1"></i> Nuevo Médico
+            </a>
         </div>
-        <a th:href="@{/medicos/nuevo}" class="btn btn-primary">Nuevo medico</a>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <!-- Alerta de error -->
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <div th:if="${#lists.isEmpty(medicos)}" class="alert alert-info mb-0">
-                No hay medicos registrados todavia.
+    <!-- Contador -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center p-3">
+                <i class="bi bi-stethoscope fs-2 text-primary mb-1"></i>
+                <h4 class="fw-bold mb-0" th:text="${#lists.size(medicos)}">0</h4>
+                <small class="text-muted">Médicos registrados</small>
             </div>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom d-flex align-items-center py-3">
+            <h5 class="mb-0 fw-semibold">
+                <i class="bi bi-list-ul text-primary me-2"></i> Lista de Médicos
+            </h5>
+        </div>
+        <div class="card-body p-0">
+
+            <!-- Estado vacío -->
+            <div th:if="${#lists.isEmpty(medicos)}" class="p-5 text-center text-muted">
+                <i class="bi bi-person-x fs-1 d-block mb-3 text-secondary"></i>
+                <h5>No hay médicos registrados</h5>
+                <p>Aún no se ha registrado ningún médico en el sistema.</p>
+                <a th:href="@{/medicos/nuevo}" class="btn btn-primary mt-2">
+                    <i class="bi bi-plus-circle"></i> Registrar Primer Médico
+                </a>
+            </div>
+
+            <!-- Tabla con datos -->
             <div th:unless="${#lists.isEmpty(medicos)}" class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead>
+                    <thead class="table-primary">
                     <tr>
-                        <th>DNI</th>
-                        <th>Nombre</th>
-                        <th>Telefono</th>
-                        <th>Email</th>
-                        <th>Especialidad</th>
-                        <th>Número de colegiado</th>
-                        <th class="text-end">Acciones</th>
+                        <th class="ps-4"><i class="bi bi-card-text me-1"></i> DNI</th>
+                        <th><i class="bi bi-person me-1"></i> Nombre Completo</th>
+                        <th><i class="bi bi-telephone me-1"></i> Teléfono</th>
+                        <th><i class="bi bi-envelope me-1"></i> Email</th>
+                        <th><i class="bi bi-award me-1"></i> Especialidad</th>
+                        <th><i class="bi bi-hash me-1"></i> Colegiado</th>
+                        <th class="text-end pe-4">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="medico : ${medicos}">
-                        <td th:text="${medico.dni}">00000000A</td>
-                        <td th:text="${medico.nombre + ' ' + medico.apellido1 + (#strings.isEmpty(medico.apellido2) ? '' : ' ' + medico.apellido2)}">Nombre Apellidos</td>
-                        <td th:text="${medico.telefono}">600000000</td>
+                        <td class="ps-4">
+                            <span class="badge bg-light text-dark border fw-normal font-monospace"
+                                  th:text="${medico.dni}">00000000A</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-success text-white d-flex align-items-center
+                                     justify-content-center fw-bold flex-shrink-0"
+                                     style="width:36px;height:36px;font-size:0.8rem;">
+                                    <span th:text="${#strings.substring(medico.nombre,0,1)}
+                                               + ${#strings.substring(medico.apellido1,0,1)}">DR</span>
+                                </div>
+                                <div>
+                                    <div th:text="${medico.nombre + ' ' + medico.apellido1
+                                        + (#strings.isEmpty(medico.apellido2) ? '' : ' ' + medico.apellido2)}">
+                                        Nombre Apellidos
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="bi bi-telephone text-muted me-1"></i>
+                            <span th:text="${medico.telefono}">600000000</span>
+                        </td>
                         <td th:text="${medico.email}">correo@ejemplo.com</td>
-                        <td th:text="${medico.especialidad.nombre}">Especialidad</td>
-                        <td th:text="${medico.numeroColegiado}">12345</td>
-                        <td class="text-end">
-                            <a th:href="@{/citas/medico/{id}(id=${medico.id})}" class="btn btn-sm btn-outline-info me-1">
-                                Ver Citas
+                        <td>
+                            <span class="badge rounded-pill text-bg-info"
+                                  th:text="${medico.especialidad.nombre}">Especialidad</span>
+                        </td>
+                        <td>
+                            <span class="font-monospace text-muted"
+                                  th:text="${medico.numeroColegiado}">12345</span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <a th:href="@{/citas/medico/{id}(id=${medico.id})}"
+                               class="btn btn-sm btn-outline-info me-1" title="Ver Citas">
+                                <i class="bi bi-calendar2-check"></i> Citas
                             </a>
-                            <a href="/medicos" th:href="@{/medicos/editar/{id}(id=${medico.id})}" class="btn btn-sm btn-outline-primary">
-                                Editar
+                            <a th:href="@{/medicos/editar/{id}(id=${medico.id})}"
+                               class="btn btn-sm btn-outline-primary me-1" title="Editar">
+                                <i class="bi bi-pencil"></i>
                             </a>
-                            <form th:action="@{/medicos/eliminar/{id}(id=${medico.id})}" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            <form th:action="@{/medicos/eliminar/{id}(id=${medico.id})}" method="post"
+                                  class="d-inline"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este médico?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; 2026 Gestor Salud &mdash; Sistema de Gestión Clínica</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

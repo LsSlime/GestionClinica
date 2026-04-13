@@ -3,65 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Citas - Gestor Salud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/Menu_Admin.css}">
 </head>
 <body class="bg-light">
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-semibold d-flex align-items-center" th:href="@{/menu}">
-            <img src="/imgs/LogoTipoFINAL.png" alt="Logo Gestor Clínico" style="height: 40px; margin-right: 10px;">
+            <img th:src="@{/imgs/LogoTipoFINAL.png}" alt="Logo" style="height:40px; margin-right:10px;">
             Gestor Salud
         </a>
+        <div class="ms-auto d-flex gap-2">
+            <!-- Botón de volver según el rol del usuario logueado -->
+            <a th:if="${session.usuarioLogueado?.rol == 'ADMIN'}"
+               th:href="@{/admin/menu}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-arrow-left"></i> Panel Admin
+            </a>
+            <a th:if="${session.usuarioLogueado?.rol == 'MEDICO'}"
+               th:href="@{/medicos/menu}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-arrow-left"></i> Mi Portal
+            </a>
+            <a th:if="${session.usuarioLogueado?.rol == 'PACIENTE'}"
+               th:href="@{/paciente/menu}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-arrow-left"></i> Mi Portal
+            </a>
+            <a th:href="@{/logout}" class="btn btn-light btn-sm">
+                <i class="bi bi-power"></i> Salir
+            </a>
+        </div>
     </div>
 </nav>
 
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 mb-1">Citas</h1>
-            <p class="text-secondary mb-0">Listado general de citas registradas.</p>
+<!-- Header -->
+<div class="header-section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-1"><i class="bi bi-calendar-check-fill"></i> Gestión de Citas</h1>
+                <p class="mb-0 opacity-75">Historial completo de citas médicas del sistema</p>
+            </div>
+            <a th:href="@{/citas/nueva}" class="btn btn-light fw-semibold">
+                <i class="bi bi-plus-circle-fill me-1"></i> Nueva Cita
+            </a>
         </div>
-        <a th:href="@{/citas/nueva}" class="btn btn-primary">Nueva cita</a>
     </div>
+</div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <div th:if="${#lists.isEmpty(citas)}" class="alert alert-info mb-0">
-                No hay citas registradas todavia.
+<div class="container pb-5">
+
+    <!-- Tabla de citas -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom d-flex align-items-center py-3">
+            <h5 class="mb-0 fw-semibold">
+                <i class="bi bi-list-ul text-primary me-2"></i> Lista de Citas
+            </h5>
+        </div>
+        <div class="card-body p-0">
+
+            <!-- Estado vacío -->
+            <div th:if="${#lists.isEmpty(citas)}" class="p-5 text-center text-muted">
+                <i class="bi bi-calendar-x fs-1 d-block mb-3 text-secondary"></i>
+                <h5>No hay citas registradas</h5>
+                <p>Aún no se ha registrado ninguna cita en el sistema.</p>
+                <a th:href="@{/citas/nueva}" class="btn btn-primary mt-2">
+                    <i class="bi bi-plus-circle"></i> Agendar Primera Cita
+                </a>
             </div>
 
+            <!-- Tabla con datos -->
             <div th:unless="${#lists.isEmpty(citas)}" class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead>
+                    <thead class="table-primary">
                     <tr>
-                        <th>Paciente</th>
-                        <th>Medico</th>
-                        <th>Especialidad</th>
-                        <th>Fecha</th>
+                        <th class="ps-4"><i class="bi bi-person me-1"></i> Paciente</th>
+                        <th><i class="bi bi-stethoscope me-1"></i> Médico</th>
+                        <th><i class="bi bi-award me-1"></i> Especialidad</th>
+                        <th><i class="bi bi-calendar3 me-1"></i> Fecha y Hora</th>
                         <th>Estado</th>
-                        <th class="text-end">Acciones</th>
+                        <th class="text-end pe-4">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="cita : ${citas}">
-                        <td th:text="${cita.paciente.nombre + ' ' + cita.paciente.apellido1}">Paciente</td>
-                        <td th:text="${cita.medico.nombre + ' ' + cita.medico.apellido1}">Medico</td>
-                        <td th:text="${cita.medico.especialidad.nombre}">Especialidad</td>
-                        <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">01/01/2026 10:00</td>
-                        <td th:text="${cita.estado}">programada</td>
-                        <td class="text-end">
-                            <form th:if="${cita.estado != 'cancelada'}" th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                        <td class="ps-4">
+                            <div class="fw-semibold"
+                                 th:text="${cita.paciente.nombre + ' ' + cita.paciente.apellido1}">Paciente</div>
+                            <small class="text-muted font-monospace" th:text="${cita.paciente.dni}">DNI</small>
+                        </td>
+                        <td th:text="${cita.medico.nombre + ' ' + cita.medico.apellido1}">Médico</td>
+                        <td>
+                            <span class="badge rounded-pill text-bg-info"
+                                  th:text="${cita.medico.especialidad.nombre}">Especialidad</span>
+                        </td>
+                        <td>
+                            <i class="bi bi-clock text-muted me-1"></i>
+                            <span th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">
+                                01/01/2026 10:00
+                            </span>
+                        </td>
+                        <td>
+                            <!-- Badge de estado con colores -->
+                            <span th:if="${cita.estado == 'completada'}"
+                                  class="badge rounded-pill bg-success">
+                                <i class="bi bi-check-circle-fill me-1"></i> Completada
+                            </span>
+                            <span th:if="${cita.estado == 'cancelada'}"
+                                  class="badge rounded-pill bg-danger">
+                                <i class="bi bi-x-circle-fill me-1"></i> Cancelada
+                            </span>
+                            <span th:if="${cita.estado == null or cita.estado == 'programada' or cita.estado == 'pendiente'}"
+                                  class="badge rounded-pill bg-warning text-dark">
+                                <i class="bi bi-clock-fill me-1"></i> Programada
+                            </span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <!-- Cancelar solo si NO está completada NI cancelada -->
+                            <form th:if="${cita.estado != 'cancelada' and cita.estado != 'completada'}"
+                                  th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
+                                  class="d-inline"
+                                  onsubmit="return confirm('¿Cancelar esta cita?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar">
+                                    <i class="bi bi-x-circle"></i> Cancelar
+                                </button>
                             </form>
+                            <!-- Etiqueta si ya está completada o cancelada -->
+                            <span th:if="${cita.estado == 'completada' or cita.estado == 'cancelada'}"
+                                  class="text-muted small fst-italic">Sin acciones</span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; 2026 Gestor Salud &mdash; Sistema de Gestión Clínica</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
+        crossorigin="anonymous"></script>
 </body>
 </html>

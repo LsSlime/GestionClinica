@@ -254,7 +254,8 @@
                 <!-- Acciones -->
                 <div class="acciones-cita" th:if="${cita.estado != 'cancelada'}">
                     <form th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
-                          onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
+                          th:if="${cita.estado != 'completada'}"
+                          onsubmit="return confirm('¿Estás seguro?');">
                         <button type="submit" class="btn btn-danger btn-cita">
                             <i class="bi bi-x-circle"></i> Cancelar Cita
                         </button>

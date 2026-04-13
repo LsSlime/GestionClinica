@@ -4,7 +4,6 @@ package personal.gestionclinica.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import personal.gestionclinica.model.Administrador;
 import personal.gestionclinica.model.Medico;
 import personal.gestionclinica.repository.MedicoDAO;
 

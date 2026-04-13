@@ -188,7 +188,10 @@
                        th:if="${cita.estado == null or cita.estado == 'programada' or cita.estado == 'pendiente'}">
                         <i class="bi bi-check-circle"></i> Completar Cita
                     </a>
+
+                    <!-- ✅ Solo se muestra si la cita NO está completada -->
                     <form th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
+                          th:if="${cita.estado != 'completada'}"
                           onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
                         <button type="submit" class="btn btn-danger btn-cita">
                             <i class="bi bi-x-circle"></i> Cancelar Cita

@@ -113,8 +113,34 @@ public class CitaController {
     }
 
     @PostMapping("/cancelar/{id}")
-    public String cancelarCita(@PathVariable int id) {
-        citaService.cancelarCita(id);
+    public String cancelarCita(@PathVariable int id, HttpSession session) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+
+        // Protección backend: no se puede cancelar una cita completada
+        Citas cita = citaService.listarTodasLasCitas().stream()
+                .filter(c -> c.getId() == id)
+                .findFirst().orElse(null);
+
+        if (cita != null && "completada".equalsIgnoreCase(cita.getEstado())) {
+            // Redirige según rol del usuario logueado
+            if (usuarioLogueado != null && "MEDICO".equals(usuarioLogueado.getRol())) {
+                return "redirect:/medicos/menu";
+            }
+            if (usuarioLogueado != null && "PACIENTE".equals(usuarioLogueado.getRol())) {
+                return "redirect:/paciente/menu";
+            }
+            return "redirect:/citas";
+        }
+        // Solo llega aquí si la cita NO está completada → se cancela
+            citaService.cancelarCita(id);
+
+            if (usuarioLogueado != null && "MEDICO".equals(usuarioLogueado.getRol())) {
+                return "redirect:/medicos/menu";
+            }
+            if (usuarioLogueado != null && "PACIENTE".equals(usuarioLogueado.getRol())) {
+                return "redirect:/paciente/menu";
+            }
+
         return "redirect:/citas";
     }
 
