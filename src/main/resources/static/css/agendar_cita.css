@@ -1,0 +1,174 @@
+body {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 650px;
+            overflow: hidden;
+        }
+
+        .form-body {
+            padding: 3rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            color: #0066cc;
+            font-size: 1.1rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .form-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .alert-danger {
+            background: #ffe6e6;
+            color: #c00;
+        }
+
+        .form-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0066cc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .btn-submit {
+            flex: 1;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+
+.btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #333;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+    border-color: #ccc;
+}
+
+@media (max-width: 576px) {
+    .button-group {
+        flex-direction: column;
+    }
+
+    .form-body {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-header h1 {
+        font-size: 1.5rem;
+    }
+}

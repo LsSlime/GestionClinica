@@ -1,5 +1,6 @@
 package personal.gestionclinica.repository;
 
+
 import personal.gestionclinica.model.Paciente;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -107,7 +108,7 @@ public class PacienteDAOJdbc implements PacienteDAO {
         String sql = "SELECT * FROM pacientes";
 
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+            ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 pacientes.add(mapearPaciente(rs));
             }
@@ -149,6 +150,47 @@ public class PacienteDAOJdbc implements PacienteDAO {
         }
         return paciente;
     }
+
+
+    //LOWER(...) hace la búsqueda sin distinguir mayúsculas.
+
+
+    //POSIBLE CAMBIO PARA LA BUSQUEDA
+
+    //pstmt.setString(1, texto + "%");       // DNI → empieza por
+    //pstmt.setString(2, "%" + texto + "%"); // nombre
+    //pstmt.setString(3, "%" + texto + "%"); // apellido
+    //pstmt.setString(4, texto + "%");       // email más preciso
+
+
+    @Override
+    public List<Paciente> buscar(String texto){
+        List<Paciente> pacientes = new ArrayList<>();
+        String sql = """
+                SELECT p.* FROM pacientes p
+                WHERE LOWER(p.dni) LIKE ?
+                OR LOWER (p.nombre) LIKE ?
+                OR LOWER (p.apellido1) LIKE ?
+                OR LOWER (p.apellido2) LIKE ?
+                OR LOWER (p.email) LIKE ?
+                ORDER BY p.nombre, p.apellido1
+                """;
+        String filtro = "%" + texto.trim().toLowerCase() + "%";
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            for (int i = 1; i <= 5; i++) {
+                pstmt.setString(i, filtro);
+            }
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    pacientes.add(mapearPaciente(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar pacientes: " + e.getMessage(), e);
+        }
+        return pacientes;
+    }
+
 
     private Paciente mapearPaciente(ResultSet rs) throws SQLException {
         Paciente paciente = new Paciente();

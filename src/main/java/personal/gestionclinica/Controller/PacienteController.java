@@ -1,6 +1,7 @@
 package personal.gestionclinica.Controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
 import personal.gestionclinica.model.Paciente;
 import personal.gestionclinica.model.Usuario;
 import personal.gestionclinica.service.CitaService;
@@ -9,10 +10,6 @@ import personal.gestionclinica.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class PacienteController {
@@ -27,10 +24,10 @@ public class PacienteController {
     }
 
 
-
     @GetMapping("/pacientes")
-    public String listarPacientes(Model model) {
-        model.addAttribute("pacientes", pacienteService.listarTodosLosPacientes());
+    public String listarPacientes(@RequestParam(name = "q", required = false)String q, Model model) {
+        model.addAttribute("q", q);
+        model.addAttribute("pacientes", pacienteService.buscarPacientes(q));
         return "Menu_Crear_Paciente";
     }
 

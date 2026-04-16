@@ -152,6 +152,37 @@ public class MedicoDAOJdbc implements MedicoDAO {
         return medico;
     }
 
+
+    @Override
+    public List<Medico> buscar(String texto){
+        List<Medico> medicos = new ArrayList<>();
+        String sql = """
+                SELECT m.*, e.id AS especialidad_id, e.nombre AS especialidad_nombre
+                FROM medicos m
+                LEFT JOIN especialidades e ON m.id_especialidad = e.id
+                WHERE m.nombre LIKE ? OR m.apellido1 LIKE ? OR m.apellido2 LIKE ? OR m.dni LIKE ? OR m.email LIKE ?
+                ORDER BY m.nombre, m.apellido1
+                """;
+
+        String filtro = "%" + texto.trim().toLowerCase() + "%";
+
+        try(PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            for (int i = 1; i <= 7; i++) {
+                pstmt.setString(i, filtro);
+            }
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    medicos.add(mapearMedico(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar medicos: " + e.getMessage(), e);
+        }
+        return medicos;
+    }
+
+
+
     private Medico mapearMedico(ResultSet rs) throws SQLException {
 
         Especialidad especialidad = new Especialidad();

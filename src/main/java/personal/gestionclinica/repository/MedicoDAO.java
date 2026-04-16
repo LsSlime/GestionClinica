@@ -13,5 +13,6 @@ public interface MedicoDAO {
     List<Medico> listarTodos();
     List<Medico> listarPorEspecialidad(int especialidadId);
     Medico ObtenerUsuario (String email, String dni);
+    List<Medico> buscar(String texto);
 
 }

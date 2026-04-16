@@ -51,5 +51,11 @@ public class MedicoService {
         return medicoDAO.ObtenerUsuario(email, dni);
     }
 
+    public List<Medico> buscarMedicos(String texto) {
+        if (texto == null || texto.trim().isEmpty()) {
+            return listarTodosLosMedicos();
+        }
+        return medicoDAO.buscar(texto);
+    }
 
 }

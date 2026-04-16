@@ -38,7 +38,7 @@ public class EspecialidadDAOJdbc implements EspecialidadDAO {
         List<Especialidad> especialidades = new ArrayList<>();
         String sql = "SELECT id, nombre, imagen_url FROM especialidades";
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+            ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Especialidad especialidad = new Especialidad();
                 especialidad.setId(rs.getInt("id"));

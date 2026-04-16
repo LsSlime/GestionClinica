@@ -40,8 +40,8 @@ public class EspecialidadController {
 
     @PostMapping("/guardar")
     public String guardarEspecialidad(@ModelAttribute Especialidad especialidad, 
-                                      @RequestParam(value = "archivo", required = false) MultipartFile archivo,
-                                      Model model) {
+                                    @RequestParam(value = "archivo", required = false) MultipartFile archivo,
+                                    Model model) {
         try {
             if (archivo != null && !archivo.isEmpty()) {
                 especialidadService.guardarEspecialidadConImagen(especialidad, archivo);

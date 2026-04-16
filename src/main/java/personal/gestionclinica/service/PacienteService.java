@@ -103,4 +103,11 @@ public class PacienteService {
     }
 
 
+    public List<Paciente> buscarPacientes(String texto){
+        if (texto == null || texto.trim().isBlank()) {
+            return pacienteDAO.listarTodos();
+        }
+        return pacienteDAO.buscar(texto);
+    }
+
 }

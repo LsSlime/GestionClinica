@@ -18,5 +18,6 @@ public interface PacienteDAO {
     Paciente obtenerPorId(int id);
     List<Paciente> listarTodos();
     Paciente ObtenerUsuario(String email, String dni);
+    List<Paciente> buscar(String texto);
 
 }
