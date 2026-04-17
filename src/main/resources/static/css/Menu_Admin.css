@@ -1,73 +1,82 @@
 .card-menu {
     border: none;
     border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
     height: 100%;
 }
 
 .card-menu:hover {
     transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 6px 14px rgba(0, 123, 255, 0.2);
 }
 
 .card-menu .card-body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
-    padding: 2rem;
+    padding: 1.2rem;
+    min-height: 220px;
 }
 
 .card-menu i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.65rem;
 }
 
 .card-menu h5 {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
 }
 
 .card-menu p {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: #6c757d;
     margin-bottom: 0;
+    line-height: 1.35;
 }
 
 .btn-wrapper {
     display: flex;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0.9rem;
 }
 
 .btn-action {
     flex: 1;
-    padding: 0.5rem;
-    font-size: 0.85rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
 }
 
 .header-section {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     color: white;
-    padding: 3rem 0;
-    margin-bottom: 3rem;
-    border-radius: 0 0 20px 20px;
+    padding: 1.8rem 0;
+    margin-bottom: 1.6rem;
+    border-radius: 0 0 18px 18px;
 }
 
 .header-section h1 {
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: 1.8rem;
 }
 
+.header-section p {
+    font-size: 1rem;
+    opacity: 0.9;
+    }
+
 .section-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.9rem;
     color: #333;
-    border-bottom: 3px solid #007bff;
-    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.35rem;
 }
 
 .btn-logout {

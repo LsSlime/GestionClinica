@@ -63,4 +63,11 @@ public class CitaService {
         return citaDAO.listarTodasLasCitas();
     }
 
+    public List<Citas> buscarCitas(String texto){
+        if (texto == null || texto.isBlank()) {
+            return citaDAO.listarTodasLasCitas();
+        }
+        return citaDAO.buscar(texto);
+    }
+
 }

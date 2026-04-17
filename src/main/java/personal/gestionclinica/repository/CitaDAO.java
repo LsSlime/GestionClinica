@@ -15,4 +15,5 @@ public interface CitaDAO {
     List<Citas> listarTodasLasCitas();
     List<Citas> obtenerCitasPorPaciente(int idPaciente);
     List<Citas> obtenerCitasPorMedico(int idMedico);
+    List<Citas> buscar(String texto);
 }

@@ -129,6 +129,45 @@ public class CitaDAOJdbc implements CitaDAO {
                 """;
     }
 
+    @Override
+    public List<Citas> buscar(String texto) {
+        String sql = consultaBase() + """
+            WHERE LOWER(p.nombre) LIKE ?
+               OR LOWER(p.apellido1) LIKE ?
+               OR LOWER(p.dni) LIKE ?
+               OR LOWER(m.nombre) LIKE ?
+               OR LOWER(m.apellido1) LIKE ?
+               OR LOWER(e.nombre) LIKE ?
+               OR LOWER(COALESCE(c.motivo, '')) LIKE ?
+               OR LOWER(COALESCE(c.estado, '')) LIKE ?
+            ORDER BY c.fecha_cita DESC
+            """;
+
+        List<Citas> citas = new ArrayList<>();
+        String filtro = "%" + texto.trim().toLowerCase() + "%";
+
+        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, filtro);
+            pstmt.setString(2, filtro);
+            pstmt.setString(3, filtro);
+            pstmt.setString(4, filtro);
+            pstmt.setString(5, filtro);
+            pstmt.setString(6, filtro);
+            pstmt.setString(7, filtro);
+            pstmt.setString(8, filtro);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    citas.add(mapearCitas(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar citas: " + e.getMessage(), e);
+        }
+
+        return citas;
+    }
+
     private Citas mapearCitas(ResultSet rs) throws SQLException {
         Especialidad especialidad = new Especialidad();
         especialidad.setNombre(rs.getString("nombre_especialidad"));

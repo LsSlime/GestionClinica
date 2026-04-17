@@ -57,11 +57,11 @@ public class CitaController {
     }
 
     @GetMapping
-    public String listarCitas(Model model) {
-        model.addAttribute("citas", citaService.listarTodasLasCitas());
+    public String listarCitas(@RequestParam(name = "q", required = false) String q, Model model) {
+        model.addAttribute("q", q);
+        model.addAttribute("citas", citaService.buscarCitas(q));
         return "Menu_citas";
     }
-
 
     @PostMapping("/guardar")
     public String guardarCita(@ModelAttribute Citas cita,

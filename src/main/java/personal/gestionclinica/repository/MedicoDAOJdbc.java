@@ -167,7 +167,7 @@ public class MedicoDAOJdbc implements MedicoDAO {
         String filtro = "%" + texto.trim().toLowerCase() + "%";
 
         try(PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            for (int i = 1; i <= 7; i++) {
+            for (int i = 1; i <= 5; i++) {
                 pstmt.setString(i, filtro);
             }
             try (ResultSet rs = pstmt.executeQuery()) {

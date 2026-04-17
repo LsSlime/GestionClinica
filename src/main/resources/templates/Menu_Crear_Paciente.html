@@ -69,6 +69,19 @@
             <h5 class="mb-0 fw-semibold">
                 <i class="bi bi-list-ul text-primary me-2"></i> Lista de Pacientes
             </h5>
+
+            <form th:action="@{/pacientes}" method="get" class="d-flex gap-2">
+                <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Buscar por nombre, DNI, email..."
+                        th:value="${q}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </form>
+
         </div>
         <div class="card-body p-0">
 
