@@ -10,6 +10,16 @@ body {
     background-color: #f8f9fa;
 }
 
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
 /* --- Layout con Sidebar --- */
 .admin-layout {
     display: flex;
@@ -179,4 +189,5 @@ footer {
     color: white;
     padding: 1.5rem 0;
     margin-top: auto;
+    flex-shrink: 0;
 }
