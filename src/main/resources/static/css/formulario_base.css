@@ -169,6 +169,17 @@ body {
             border-color: #ccc;
         }
 
+        .help-link {
+            color: #0066cc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .help-link:hover {
+            color: #004488;
+            text-decoration: underline;
+        }
+
         .info-text {
             background: #e6f7ff;
             border-left: 4px solid #00f2fe;

@@ -17,13 +17,8 @@ body {
     height: 100vh;
 }
 
-.form {
+.login-card {
     background-color: #fff;
-    display: block;
-    padding: 2.5rem;
-    max-width: 420px;
-    border-radius: 15px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.5s ease-out;
 }
 
@@ -36,6 +31,14 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.login-header {
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+}
+
+.tracking-wider {
+    letter-spacing: 0.05em;
 }
 
 .form-title {

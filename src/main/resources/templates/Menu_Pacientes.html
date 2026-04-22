@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Paciente - Mis Citas</title>
-    <link rel="stylesheet" href="/css/Menu_Medico_y_paciente.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" th:href="@{/imgs/LogoTipoFINAL.png}">
+    <link rel="stylesheet" th:href="@{/css/Menu_Medico_y_paciente.css}">
 </head>
-<body class="bg-light">
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-semibold d-flex align-items-center" th:href="@{/menu}">
-            <img src="/imgs/LogoTipoFINAL.png" alt="Logo Gestor Clínico" style="height: 40px; margin-right: 10px;">
-            Gestor Salud
+            <img th:src="@{/imgs/LogoTipoFINAL.png}" alt="Logo Gestor Salud" style="height: 40px; margin-right: 10px;">
+            <span>Gestor Salud</span>
         </a>
     </div>
 </nav>
@@ -42,241 +43,246 @@
     </div>
 </div>
 
-<!-- Navbar de opciones -->
-<div class="navbar-menu">
-    <div class="container">
-        <div class="nav-links">
-            <a href="#perfil">Mi Perfil</a>
-            <a href="#acciones">Mis Acciones</a>
-            <a href="#citas">Mis Citas</a>
-            <a th:href="@{/menu}">Volver al Inicio</a>
-        </div>
-    </div>
-</div>
-
-<div class="container pb-5">
-
-    <!-- Sección: Mi Perfil -->
-    <div id="perfil" class="perfil-card" th:if="${paciente}">
-        <div class="perfil-header">
-            <div class="perfil-icon">
-                <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="perfil-info">
-                <h3 th:text="${paciente.nombre} + ' ' + ${paciente.apellido1} + ' ' + ${paciente.apellido2}">
-                    Nombre del Paciente
-                </h3>
-                <p class="text-info">
-                    Paciente registrado
-                </p>
+    <!-- Navegación de sección -->
+    <nav class="navbar-menu mb-4 shadow-sm" aria-label="Navegación secundaria">
+        <div class="container">
+            <div class="nav-links d-flex justify-content-center gap-4">
+                <a href="#perfil" class="nav-link-custom">Mi Perfil</a>
+                <a href="#acciones" class="nav-link-custom">Mis Acciones</a>
+                <a href="#citas" class="nav-link-custom">Mis Citas</a>
+                <a th:href="@{/menu}" class="nav-link-custom">Volver al Inicio</a>
             </div>
         </div>
+    </nav>
 
-        <div class="info-grid">
-            <div class="info-item">
-                <label>Correo Electrónico</label>
-                <p th:text="${paciente.email}">correo@ejemplo.com</p>
-            </div>
-            <div class="info-item">
-                <label>Teléfono</label>
-                <p th:text="${paciente.telefono}">600000000</p>
-            </div>
-            <div class="info-item">
-                <label>DNI</label>
-                <p th:text="${paciente.dni}">00000000A</p>
-            </div>
-            <div class="info-item">
-                <label>Género</label>
-                <p th:text="${paciente.genero}">Masculino</p>
-            </div>
-        </div>
-    </div>
+    <main class="container pb-5">
 
-    <!-- Sección: Mis Acciones -->
-    <div id="acciones" class="mt-5">
-        <h2 class="section-title">
-            <i class="bi bi-lightning"></i> Mis Acciones
-        </h2>
-
-        <div class="acciones-section">
-            <!-- Card: Agendar Nueva Cita -->
-            <div class="accion-card">
-                <div class="accion-icon">
-                    <i class="bi bi-calendar-plus"></i>
+        <!-- Sección: Mi Perfil -->
+        <section id="perfil" class="perfil-card" th:if="${paciente}" aria-labelledby="titulo-perfil">
+            <header class="perfil-header">
+                <div class="perfil-icon" aria-hidden="true">
+                    <i class="bi bi-person-fill"></i>
                 </div>
-                <h5>Agendar Nueva Cita</h5>
-                <p>Solicita una cita con un médico disponible según la especialidad que necesites</p>
-                <a th:href="@{/citas/nueva}" class="btn btn-primary btn-sm">
-                    <i class="bi bi-plus-circle"></i> Agendar
-                </a>
-            </div>
-
-            <!-- Card: Ver Calendario -->
-            <div class="accion-card">
-                <div class="accion-icon">
-                    <i class="bi bi-calendar3"></i>
+                <div class="perfil-info">
+                    <h2 id="titulo-perfil" th:text="${paciente.nombre} + ' ' + ${paciente.apellido1} + ' ' + ${paciente.apellido2}">
+                        Nombre del Paciente
+                    </h2>
+                    <p class="text-info fw-bold">
+                        Paciente registrado
+                    </p>
                 </div>
-                <h5>Ver Mis Citas</h5>
-                <p>Visualiza todas tus citas programadas, canceladas y completadas</p>
-                <a href="#citas" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-eye"></i> Ver
-                </a>
-            </div>
+            </header>
 
-            <!-- Card: Información Médica -->
-            <div class="accion-card">
-                <div class="accion-icon">
-                    <i class="bi bi-info-circle"></i>
+            <div class="info-grid">
+                <article class="info-item">
+                    <span class="info-label">Correo Electrónico</span>
+                    <p th:text="${paciente.email}">correo@ejemplo.com</p>
+                </article>
+                <article class="info-item">
+                    <span class="info-label">Teléfono</span>
+                    <p th:text="${paciente.telefono}">600000000</p>
+                </article>
+                <article class="info-item">
+                    <span class="info-label">DNI</span>
+                    <p th:text="${paciente.dni}">00000000A</p>
+                </article>
+                <article class="info-item">
+                    <span class="info-label">Género</span>
+                    <p th:text="${paciente.genero}">Masculino</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección: Mis Acciones -->
+        <section id="acciones" class="mt-5" aria-labelledby="titulo-acciones">
+            <h2 id="titulo-acciones" class="section-title">
+                <i class="bi bi-lightning" aria-hidden="true"></i> Mis Acciones
+            </h2>
+
+            <div class="acciones-section row g-4">
+                <!-- Card: Agendar Nueva Cita -->
+                <article class="col-md-4">
+                    <div class="accion-card h-100 shadow-sm p-4 text-center border-0 rounded-3">
+                        <div class="accion-icon mb-3 fs-1 text-primary">
+                            <i class="bi bi-calendar-plus" aria-hidden="true"></i>
+                        </div>
+                        <h3>Agendar Nueva Cita</h3>
+                        <p class="text-muted">Solicita una cita con un médico disponible según la especialidad que necesites</p>
+                        <a th:href="@{/citas/nueva}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle"></i> Agendar
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card: Ver Calendario -->
+                <article class="col-md-4">
+                    <div class="accion-card h-100 shadow-sm p-4 text-center border-0 rounded-3">
+                        <div class="accion-icon mb-3 fs-1 text-primary">
+                            <i class="bi bi-calendar3" aria-hidden="true"></i>
+                        </div>
+                        <h3>Ver Mis Citas</h3>
+                        <p class="text-muted">Visualiza todas tus citas programadas, canceladas y completadas</p>
+                        <a href="#citas" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card: Información Médica -->
+                <article class="col-md-4">
+                    <div class="accion-card h-100 shadow-sm p-4 text-center border-0 rounded-3">
+                        <div class="accion-icon mb-3 fs-1 text-primary">
+                            <i class="bi bi-info-circle" aria-hidden="true"></i>
+                        </div>
+                        <h3>Mi Información</h3>
+                        <p class="text-muted">Consulta tu información de perfil y datos de contacto registrados</p>
+                        <a href="#perfil" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-person"></i> Consultar
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección: Mis Citas -->
+        <section id="citas" class="citas-section mt-5" aria-labelledby="titulo-citas">
+            <h2 id="titulo-citas" class="section-title">
+                <i class="bi bi-calendar-check" aria-hidden="true"></i> Mis Citas Agendadas
+            </h2>
+
+            <!-- Estado vacío -->
+            <div th:if="${#lists.isEmpty(citas)}" class="card bg-white border-0 shadow-sm">
+                <div class="empty-state">
+                    <i class="bi bi-calendar-x" aria-hidden="true"></i>
+                    <h3>No hay citas agendadas</h3>
+                    <p>Aún no tienes citas programadas.
+                        <a th:href="@{/citas/nueva}" class="text-decoration-none fw-bold">Agenda una cita ahora</a>
+                    </p>
                 </div>
-                <h5>Mi Información</h5>
-                <p>Consulta tu información de perfil y datos de contacto registrados</p>
-                <a href="#perfil" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-person"></i> Consultar
-                </a>
             </div>
-        </div>
-    </div>
 
-    <!-- Sección: Mis Citas -->
-    <div id="citas" class="citas-section">
-        <h2 class="section-title">
-            <i class="bi bi-calendar-check"></i> Mis Citas Agendadas
-        </h2>
+            <!-- Listado de citas -->
+            <div th:unless="${#lists.isEmpty(citas)}" class="citas-container">
+                <article th:each="cita : ${citas}" class="cita-card" aria-labelledby="'cita-' + ${cita.id}">
+                    <header class="cita-header">
+                        <div>
+                            <div class="cita-medico">
+                                <i class="bi bi-person-badge" aria-hidden="true"></i>
+                                <span th:text="${cita.medico.nombre} + ' ' + ${cita.medico.apellido1}" th:id="'cita-' + ${cita.id}">
+                                    Dr./Dra. Nombre
+                                </span>
+                            </div>
+                            <small class="text-muted" th:text="${cita.medico.especialidad.nombre}">
+                                Especialidad
+                            </small>
+                        </div>
+                        <span class="estado-badge"
+                            th:classappend="${cita.estado == 'programada' or cita.estado == 'pendiente' ? 'estado-programada' : cita.estado == 'completada' ? 'estado-completada' : 'estado-cancelada'}"
+                              th:text="${#strings.capitalize(cita.estado)}">
+                            Programada
+                        </span>
+                    </header>
 
-        <!-- Estado vacío -->
-        <div th:if="${#lists.isEmpty(citas)}" class="card bg-white border-0 shadow-sm">
-            <div class="empty-state">
-                <i class="bi bi-calendar-x"></i>
-                <h4>No hay citas agendadas</h4>
-                <p>Aún no tienes citas programadas.
-                    <a th:href="@{/citas/nueva}" class="text-decoration-none">Agenda una cita ahora</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Listado de citas -->
-        <div th:unless="${#lists.isEmpty(citas)}">
-            <div th:each="cita : ${citas}" class="cita-card">
-                <div class="cita-header">
-                    <div>
-                        <div class="cita-medico">
-                            <i class="bi bi-person-badge"></i>
-                            <span th:text="${cita.medico.nombre} + ' ' + ${cita.medico.apellido1}">
-                                Dr./Dra. Nombre
+                    <div class="cita-detalle">
+                        <div class="detalle-item">
+                            <span class="detalle-label">
+                                <i class="bi bi-calendar3" aria-hidden="true"></i> Fecha y Hora
                             </span>
-                        </div>
-                        <small class="text-muted" th:text="${cita.medico.especialidad.nombre}">
-                            Especialidad
-                        </small>
-                    </div>
-                    <span class="estado-badge"
-                        th:classappend="${cita.estado == 'programada' or cita.estado == 'pendiente' ? 'estado-programada' : cita.estado == 'completada' ? 'estado-completada' : 'estado-cancelada'}"
-                          th:text="${#strings.capitalize(cita.estado)}">
-                        Programada
-                    </span>
-                </div>
-
-                <div class="cita-detalle">
-                    <div class="detalle-item">
-                        <div class="detalle-label">
-                            <i class="bi bi-calendar3"></i> Fecha y Hora
-                        </div>
-                        <div class="detalle-valor"
-                             th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">
-                            01/01/2026 10:00
-                        </div>
-                    </div>
-
-                    <div class="detalle-item">
-                        <div class="detalle-label">
-                            <i class="bi bi-stethoscope"></i> Especialidad
-                        </div>
-                        <div class="detalle-valor" th:text="${cita.medico.especialidad.nombre}">
-                            Especialidad
-                        </div>
-                    </div>
-
-                    <div class="detalle-item">
-                        <div class="detalle-label">
-                            <i class="bi bi-chat-dots"></i> Motivo
-                        </div>
-                        <div class="detalle-valor" th:text="${cita.motivo}">
-                            Motivo de la cita
-                        </div>
-                    </div>
-
-                    <div class="detalle-item">
-                        <div class="detalle-label">
-                            <i class="bi bi-telephone"></i> Teléfono Médico
-                        </div>
-                        <div class="detalle-valor" th:text="${cita.medico.telefono}">
-                            600000000
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Descripción si existe -->
-                <div th:if="${cita.descripcion}" class="mt-2 p-2 bg-light rounded">
-                    <small class="text-muted">
-                        <i class="bi bi-info-circle"></i> Descripción:
-                    </small>
-                    <p class="mb-0" th:text="${cita.descripcion}">Descripción de la cita</p>
-                </div>
-
-                <!-- Sección de diagnóstico/tratamiento si la cita está completada -->
-                <div th:if="${cita.estado == 'completada'}" class="mt-3">
-                    <div class="row">
-                        <div th:if="${cita.diagnostico}" class="col-md-6 mb-2">
-                            <div class="p-2 bg-light rounded">
-                                <small class="text-muted">
-                                    <i class="bi bi-file-medical"></i> Diagnóstico:
-                                </small>
-                                <p class="mb-0" th:text="${cita.diagnostico}">Diagnóstico</p>
+                            <div class="detalle-valor"
+                                 th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}">
+                                01/01/2026 10:00
                             </div>
                         </div>
-                        <div th:if="${cita.tratamiento}" class="col-md-6 mb-2">
-                            <div class="p-2 bg-light rounded">
-                                <small class="text-muted">
-                                    <i class="bi bi-prescription2"></i> Tratamiento:
-                                </small>
-                                <p class="mb-0" th:text="${cita.tratamiento}">Tratamiento</p>
+
+                        <div class="detalle-item">
+                            <span class="detalle-label">
+                                <i class="bi bi-stethoscope" aria-hidden="true"></i> Especialidad
+                            </span>
+                            <div class="detalle-valor" th:text="${cita.medico.especialidad.nombre}">
+                                Especialidad
+                            </div>
+                        </div>
+
+                        <div class="detalle-item">
+                            <span class="detalle-label">
+                                <i class="bi bi-chat-dots" aria-hidden="true"></i> Motivo
+                            </span>
+                            <div class="detalle-valor" th:text="${cita.motivo}">
+                                Motivo de la cita
+                            </div>
+                        </div>
+
+                        <div class="detalle-item">
+                            <span class="detalle-label">
+                                <i class="bi bi-telephone" aria-hidden="true"></i> Teléfono Médico
+                            </span>
+                            <div class="detalle-valor" th:text="${cita.medico.telefono}">
+                                600000000
                             </div>
                         </div>
                     </div>
-                    <div th:if="${cita.observaciones}" class="mt-2 p-2 bg-light rounded">
-                        <small class="text-muted">
-                            <i class="bi bi-note"></i> Observaciones:
-                        </small>
-                        <p class="mb-0" th:text="${cita.observaciones}">Observaciones</p>
-                    </div>
-                </div>
 
-                <!-- Acciones -->
-                <div class="acciones-cita" th:if="${cita.estado != 'cancelada'}">
-                    <form th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
-                          th:if="${cita.estado != 'completada'}"
-                          onsubmit="return confirm('¿Estás seguro?');">
-                        <button type="submit" class="btn btn-danger btn-cita">
-                            <i class="bi bi-x-circle"></i> Cancelar Cita
-                        </button>
-                    </form>
-                </div>
+                    <!-- Descripción si existe -->
+                    <footer th:if="${cita.descripcion}" class="mt-3 p-2 bg-light rounded border-start border-primary border-3">
+                        <small class="text-muted fw-bold">
+                            <i class="bi bi-info-circle" aria-hidden="true"></i> Descripción:
+                        </small>
+                        <p class="mb-0 small" th:text="${cita.descripcion}">Descripción de la cita</p>
+                    </footer>
+
+                    <!-- Sección de diagnóstico/tratamiento si la cita está completada -->
+                    <section th:if="${cita.estado == 'completada'}" class="mt-3" aria-label="Resultado de la cita">
+                        <div class="row">
+                            <article th:if="${cita.diagnostico}" class="col-md-6 mb-2">
+                                <div class="p-2 bg-light rounded h-100">
+                                    <small class="text-muted fw-bold">
+                                        <i class="bi bi-file-medical" aria-hidden="true"></i> Diagnóstico:
+                                    </small>
+                                    <p class="mb-0" th:text="${cita.diagnostico}">Diagnóstico</p>
+                                </div>
+                            </article>
+                            <article th:if="${cita.tratamiento}" class="col-md-6 mb-2">
+                                <div class="p-2 bg-light rounded h-100">
+                                    <small class="text-muted fw-bold">
+                                        <i class="bi bi-prescription2" aria-hidden="true"></i> Tratamiento:
+                                    </small>
+                                    <p class="mb-0" th:text="${cita.tratamiento}">Tratamiento</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div th:if="${cita.observaciones}" class="mt-2 p-2 bg-light rounded">
+                            <small class="text-muted fw-bold">
+                                <i class="bi bi-note" aria-hidden="true"></i> Observaciones:
+                            </small>
+                            <p class="mb-0" th:text="${cita.observaciones}">Observaciones</p>
+                        </div>
+                    </section>
+
+                    <!-- Acciones -->
+                    <div class="acciones-cita mt-3" th:if="${cita.estado != 'cancelada'}">
+                        <form th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post"
+                              th:if="${cita.estado != 'completada'}"
+                              onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta cita?');"
+                              class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm btn-cita">
+                                <i class="bi bi-x-circle"></i> Cancelar Cita
+                            </button>
+                        </form>
+                    </div>
+                </article>
             </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Gestor Salud &mdash; Sistema de Gestión Clínica</p>
         </div>
-    </div>
+    </footer>
 
-</div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4 mt-5">
-    <div class="container">
-        <p class="mb-0">&copy; 2024 Sistema de Gestión Clínica - Todos los derechos reservados</p>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
-        crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOHmy+McmqTp7z5YFA8aGkB1K"
+            crossorigin="anonymous"></script>
 </body>
 </html>

@@ -7,172 +7,185 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/formulario_base.css">
+    <link rel="icon" type="image/png" th:href="@{/imgs/LogoTipoFINAL.png}">
+    <link rel="stylesheet" th:href="@{/css/formulario_base.css}">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
     <div class="container">
         <a class="navbar-brand fw-semibold d-flex align-items-center" th:href="@{/menu}">
-            <img src="/imgs/LogoTipoFINAL.png" alt="Logo Gestor Clínico" style="height: 40px; margin-right: 10px;">
+            <img th:src="@{/imgs/LogoTipoFINAL.png}" alt="Logo Gestor Clínico" style="height: 40px; margin-right: 10px;">
             Gestor Salud
         </a>
     </div>
 </nav>
 
-<div class="form-container">
-    <div class="form-card">
-        <div class="form-header">
-            <h1 th:if="${paciente.id > 0}">
-                <i class="bi bi-pencil-square"></i> Editar Paciente
-            </h1>
-            <h1 th:if="${paciente.id == 0}">
-                <i class="bi bi-person-plus"></i> Nuevo Paciente
-            </h1>
-            <p>Completa los datos para registrar o editar un paciente</p>
-        </div>
+    <main class="container pb-5">
+        <div class="form-container">
+            <article class="form-card shadow-lg border-0 rounded-4 overflow-hidden">
+                <header class="form-header bg-primary text-white p-4 text-center">
+                    <h1 class="h2 mb-1" th:if="${paciente.id > 0}">
+                        <i class="bi bi-pencil-square" aria-hidden="true"></i> Editar Paciente
+                    </h1>
+                    <h1 class="h2 mb-1" th:if="${paciente.id == 0}">
+                        <i class="bi bi-person-plus" aria-hidden="true"></i> Nuevo Paciente
+                    </h1>
+                    <p class="mb-0 opacity-75">Completa los datos para registrar o editar un paciente</p>
+                </header>
 
-        <div class="form-body">
-            <div th:if="${error}" class="alert alert-danger">
-                <i class="bi bi-exclamation-circle"></i>
-                <span th:text="${error}"></span>
-            </div>
+                <div class="form-body p-4 p-md-5 bg-white">
+                    <div th:if="${error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>
+                        <span th:text="${error}">Error</span>
+                    </div>
 
-            <form th:action="${paciente.id > 0} ? @{/pacientes/actualizar} : @{/pacientes/guardar}" method="post">
-                <input type="hidden" name="id" th:value="${paciente.id}">
+                    <form th:action="${paciente.id > 0} ? @{/pacientes/actualizar} : @{/pacientes/guardar}" method="post">
+                        <input type="hidden" name="id" th:value="${paciente.id}">
 
-                <div class="form-section-title">
-                    <i class="bi bi-card-list"></i> Información de Identificación
-                </div>
+                        <section class="mb-5" aria-labelledby="seccion-identificacion">
+                            <h2 id="seccion-identificacion" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-card-list text-primary" aria-hidden="true"></i> Información de Identificación
+                            </h2>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dni" class="form-label">
-                            <i class="bi bi-hash"></i> DNI/Cédula
-                        </label>
-                        <input type="text" class="form-control" id="dni" name="dni"
-                            th:value="${paciente.dni}"
-                            th:readonly="${paciente.id > 0}"
-                            th:disabled="${paciente.id > 0}"
-                            placeholder="Ej: 12345678A"
-                            required>
-                        <div th:if="${paciente.id > 0}" class="info-text">
-                            <i class="bi bi-info-circle"></i> El DNI no se puede modificar una vez creado el paciente.
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="dni" class="form-label fw-bold">
+                                        <i class="bi bi-hash text-muted" aria-hidden="true"></i> DNI/Cédula
+                                    </label>
+                                    <input type="text" class="form-control shadow-sm" id="dni" name="dni"
+                                           th:value="${paciente.dni}"
+                                           th:readonly="${paciente.id > 0}"
+                                           th:disabled="${paciente.id > 0}"
+                                           placeholder="Ej: 12345678A"
+                                           required>
+                                    <div th:if="${paciente.id > 0}" class="form-text mt-1 text-warning small">
+                                        <i class="bi bi-info-circle" aria-hidden="true"></i> El DNI no se puede modificar.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="genero" class="form-label fw-bold">
+                                        <i class="bi bi-gender-ambiguous text-muted" aria-hidden="true"></i> Género
+                                    </label>
+                                    <select class="form-select shadow-sm" id="genero" name="genero"
+                                            th:disabled="${paciente.id > 0}" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="Masculino" th:selected="${paciente.genero == 'Masculino'}">Masculino</option>
+                                        <option value="Femenino" th:selected="${paciente.genero == 'Femenino'}">Femenino</option>
+                                    </select>
+                                    <div th:if="${paciente.id > 0}" class="form-text mt-1 text-warning small">
+                                        <i class="bi bi-info-circle" aria-hidden="true"></i> El género queda fijado en el alta.
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mb-5" aria-labelledby="seccion-personal">
+                            <h2 id="seccion-personal" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-person text-primary" aria-hidden="true"></i> Información Personal
+                            </h2>
+
+                            <div class="row g-4 mb-3">
+                                <div class="col-md-6">
+                                    <label for="nombre" class="form-label fw-bold">
+                                        <i class="bi bi-person-fill text-muted" aria-hidden="true"></i> Nombre
+                                    </label>
+                                    <input type="text" class="form-control shadow-sm" id="nombre" name="nombre"
+                                           th:value="${paciente.nombre}"
+                                           placeholder="Nombre"
+                                           required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="apellido1" class="form-label fw-bold">
+                                        <i class="bi bi-person-fill text-muted" aria-hidden="true"></i> Primer Apellido
+                                    </label>
+                                    <input type="text" class="form-control shadow-sm" id="apellido1" name="apellido1"
+                                           th:value="${paciente.apellido1}"
+                                           placeholder="Primer apellido"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="apellido2" class="form-label fw-bold">
+                                        <i class="bi bi-person-fill text-muted" aria-hidden="true"></i> Segundo Apellido
+                                    </label>
+                                    <input type="text" class="form-control shadow-sm" id="apellido2" name="apellido2"
+                                           th:value="${paciente.apellido2}"
+                                           placeholder="Segundo apellido (opcional)">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fechaNacimiento" class="form-label fw-bold">
+                                        <i class="bi bi-calendar text-muted" aria-hidden="true"></i> Fecha de Nacimiento
+                                    </label>
+                                    <input type="date" class="form-control shadow-sm" id="fechaNacimiento" name="fechaNacimiento"
+                                           th:value="${paciente.fechaNacimiento}"
+                                           required>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mb-5" aria-labelledby="seccion-contacto">
+                            <h2 id="seccion-contacto" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-telephone text-primary" aria-hidden="true"></i> Información de Contacto
+                            </h2>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="telefono" class="form-label fw-bold">
+                                        <i class="bi bi-telephone-fill text-muted" aria-hidden="true"></i> Teléfono
+                                    </label>
+                                    <input type="number" class="form-control shadow-sm" id="telefono" name="telefono"
+                                           th:value="${paciente.telefono}"
+                                           placeholder="600000000"
+                                           required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label fw-bold">
+                                        <i class="bi bi-envelope-fill text-muted" aria-hidden="true"></i> Correo Electrónico
+                                    </label>
+                                    <input type="email" class="form-control shadow-sm" id="email" name="email"
+                                           th:value="${paciente.email}"
+                                           placeholder="correo@ejemplo.com"
+                                           required>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mb-4" aria-labelledby="seccion-adicional">
+                            <h2 id="seccion-adicional" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-map text-primary" aria-hidden="true"></i> Información Adicional
+                            </h2>
+
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label fw-bold">
+                                    <i class="bi bi-geo-alt-fill text-muted" aria-hidden="true"></i> Dirección
+                                </label>
+                                <input type="text" class="form-control shadow-sm" id="direccion" name="direccion"
+                                       th:value="${paciente.direccion}"
+                                       placeholder="Calle, número, ciudad..."
+                                       required>
+                            </div>
+                        </section>
+
+                        <div class="button-group d-flex flex-column flex-md-row gap-3 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1 shadow-sm py-3">
+                                <i class="bi bi-check-circle me-2" aria-hidden="true"></i>
+                                <span th:text="${paciente.id > 0 ? 'Actualizar Paciente' : 'Crear Paciente'}">Guardar</span>
+                            </button>
+                            <a th:href="@{/pacientes}" class="btn btn-outline-secondary btn-lg flex-grow-1 py-3">
+                                <i class="bi bi-x-circle me-2" aria-hidden="true"></i> Cancelar
+                            </a>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="genero" class="form-label">
-                            <i class="bi bi-person-badge"></i> Género
-                        </label>
-                        <select class="form-select" id="genero" name="genero"
-                                th:disabled="${paciente.id > 0}" required>
-                            <option value="">Seleccione...</option>
-                            <option value="Masculino" th:selected="${paciente.genero == 'Masculino'}">Masculino</option>
-                            <option value="Femenino" th:selected="${paciente.genero == 'Femenino'}">Femenino</option>
-                        </select>
-                        <div th:if="${paciente.id > 0}" class="info-text">
-                            <i class="bi bi-info-circle"></i> El género queda fijado en el alta del paciente.
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-                <div class="form-section-title">
-                    <i class="bi bi-person"></i> Información Personal
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nombre" class="form-label">
-                            <i class="bi bi-person-fill"></i> Nombre
-                        </label>
-                        <input type="text" class="form-control" id="nombre" name="nombre"
-                               th:value="${paciente.nombre}"
-                               placeholder="Nombre"
-                               required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="apellido1" class="form-label">
-                            <i class="bi bi-person-fill"></i> Primer Apellido
-                        </label>
-                        <input type="text" class="form-control" id="apellido1" name="apellido1"
-                               th:value="${paciente.apellido1}"
-                               placeholder="Primer apellido"
-                               required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="apellido2" class="form-label">
-                        <i class="bi bi-person-fill"></i> Segundo Apellido
-                    </label>
-                    <input type="text" class="form-control" id="apellido2" name="apellido2"
-                           th:value="${paciente.apellido2}"
-                           placeholder="Segundo apellido (opcional)">
-                </div>
-
-                <div class="form-group">
-                    <label for="fechaNacimiento" class="form-label">
-                        <i class="bi bi-calendar"></i> Fecha de Nacimiento
-                    </label>
-                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento"
-                           th:value="${paciente.fechaNacimiento}"
-                           required>
-                </div>
-
-                <div class="form-section-title">
-                    <i class="bi bi-telephone"></i> Información de Contacto
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="telefono" class="form-label">
-                            <i class="bi bi-telephone-fill"></i> Teléfono
-                        </label>
-                        <input type="number" class="form-control" id="telefono" name="telefono"
-                               th:value="${paciente.telefono}"
-                               placeholder="600000000"
-                               required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" class="form-label">
-                            <i class="bi bi-envelope-fill"></i> Correo Electrónico
-                        </label>
-                        <input type="email" class="form-control" id="email" name="email"
-                               th:value="${paciente.email}"
-                               placeholder="correo@ejemplo.com"
-                               required>
-                    </div>
-                </div>
-
-                <div class="form-section-title">
-                    <i class="bi bi-map"></i> Información Adicional
-                </div>
-
-                <div class="form-group">
-                    <label for="direccion" class="form-label">
-                        <i class="bi bi-geo-alt-fill"></i> Dirección
-                    </label>
-                    <input type="text" class="form-control" id="direccion" name="direccion"
-                           th:value="${paciente.direccion}"
-                           placeholder="Calle, número, ciudad..."
-                           required>
-                </div>
-
-                <div class="button-group">
-                    <button type="submit" class="btn-submit" th:text="${paciente.id > 0 ? 'Actualizar Paciente' : 'Crear Paciente'}">
-                        <i class="bi bi-check-circle"></i> Guardar
-                    </button>
-                    <a th:href="@{/pacientes}" class="btn-cancel">
-                        <i class="bi bi-x-circle"></i> Cancelar
-                    </a>
-                </div>
-            </form>
+            </article>
         </div>
-    </div>
-</div>
+    </main>
 
 </body>
 </html>

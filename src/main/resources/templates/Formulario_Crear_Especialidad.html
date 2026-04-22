@@ -20,66 +20,78 @@
     </div>
 </nav>
 
-<div class="form-container">
-    <div class="form-card">
-        <div class="form-header">
-            <h1><i class="bi bi-bookmark-heart"></i> Nueva Especialidad</h1>
-            <p>Crea una nueva especialidad médica en el sistema</p>
-        </div>
+    <main class="container pb-5">
+        <div class="form-container">
+            <article class="form-card shadow-lg border-0 rounded-4 overflow-hidden">
+                <header class="form-header bg-primary text-white p-4 text-center">
+                    <h1 class="h2 mb-1"><i class="bi bi-bookmark-heart" aria-hidden="true"></i> Nueva Especialidad</h1>
+                    <p class="mb-0 opacity-75">Crea una nueva especialidad médica en el sistema</p>
+                </header>
 
-        <div class="form-body">
-            <div th:if="${error}" class="alert alert-danger">
-                <i class="bi bi-exclamation-circle"></i>
-                <span th:text="${error}"></span>
-            </div>
-
-            <div class="info-box">
-                <i class="bi bi-info-circle"></i>
-                Las especialidades son categorías médicas que los médicos pueden atender.
-            </div>
-
-            <form th:action="@{/especialidades/guardar}" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="nombre" class="form-label">
-                        <i class="bi bi-file-text"></i> Nombre de la Especialidad
-                    </label>
-                    <input type="text" class="form-control" id="nombre" name="nombre"
-                           th:value="${especialidad.nombre}"
-                           placeholder="Ej: Cardiología, Pediatría, Dermatología..."
-                           required>
-                    <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.5rem;">
-                        Ingresa el nombre único de la especialidad
+                <div class="form-body p-4 p-md-5 bg-white">
+                    <div th:if="${error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>
+                        <span th:text="${error}">Error</span>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="archivo" class="form-label">
-                        <i class="bi bi-image"></i> Imagen de la Especialidad
-                    </label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="archivo" name="archivo" accept="image/*" onchange="mostrarNombreArchivo(this)">
-                        <label for="archivo" class="file-input-label">
-                            <i class="bi bi-cloud-upload"></i>
-                            <div>Haz clic para seleccionar una imagen</div>
-                            <small style="color: #6c757d; font-weight: 400;">o arrastra una imagen aquí</small>
-                        </label>
+                    <div class="alert alert-info d-flex align-items-center mb-4" role="status">
+                        <i class="bi bi-info-circle me-2" aria-hidden="true"></i>
+                        <span>Las especialidades son categorías médicas que los médicos pueden atender.</span>
                     </div>
-                    <div id="fileName" class="file-name"></div>
-                    <div id="preview" class="preview-image"></div>
-                </div>
 
-                <div class="button-group">
-                    <button type="submit" class="btn-submit">
-                        <i class="bi bi-check-circle"></i> Guardar Especialidad
-                    </button>
-                    <a th:href="@{/especialidades}" class="btn-cancel">
-                        <i class="bi bi-x-circle"></i> Cancelar
-                    </a>
+                    <form th:action="@{/especialidades/guardar}" method="post" enctype="multipart/form-data">
+                        <section class="mb-5" aria-labelledby="seccion-basica">
+                            <h2 id="seccion-basica" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-card-heading text-primary" aria-hidden="true"></i> Información Básica
+                            </h2>
+
+                            <div class="mb-4">
+                                <label for="nombre" class="form-label fw-bold">
+                                    <i class="bi bi-file-text text-muted" aria-hidden="true"></i> Nombre de la Especialidad
+                                </label>
+                                <input type="text" class="form-control shadow-sm" id="nombre" name="nombre"
+                                       th:value="${especialidad.nombre}"
+                                       placeholder="Ej: Cardiología, Pediatría, Dermatología..."
+                                       required>
+                                <div class="form-text mt-2 small text-muted">Ingresa el nombre único de la especialidad médica.</div>
+                            </div>
+                        </section>
+
+                        <section class="mb-4" aria-labelledby="seccion-visual">
+                            <h2 id="seccion-visual" class="form-section-title h5 pb-2 border-bottom mb-4">
+                                <i class="bi bi-image text-primary" aria-hidden="true"></i> Imagen Representativa
+                            </h2>
+
+                            <div class="mb-4">
+                                <label for="archivo" class="form-label fw-bold">
+                                    <i class="bi bi-cloud-upload text-muted" aria-hidden="true"></i> Seleccionar Imagen
+                                </label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="archivo" name="archivo" accept="image/*" onchange="mostrarNombreArchivo(this)" class="d-none">
+                                    <label for="archivo" class="file-input-label d-block p-5 border border-2 border-dashed rounded-3 text-center bg-light cursor-pointer">
+                                        <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2" aria-hidden="true"></i>
+                                        <div class="fw-bold">Haz clic para seleccionar una imagen</div>
+                                        <small class="text-muted fw-normal">o arrastra el archivo aquí</small>
+                                    </label>
+                                </div>
+                                <div id="fileName" class="mt-2 text-primary fw-medium small"></div>
+                                <div id="preview" class="mt-3 text-center"></div>
+                            </div>
+                        </section>
+
+                        <div class="button-group d-flex flex-column flex-md-row gap-3 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1 shadow-sm py-3">
+                                <i class="bi bi-check-circle me-2" aria-hidden="true"></i> Guardar Especialidad
+                            </button>
+                            <a th:href="@{/especialidades}" class="btn btn-outline-secondary btn-lg flex-grow-1 py-3">
+                                <i class="bi bi-x-circle me-2" aria-hidden="true"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </article>
         </div>
-    </div>
-</div>
+    </main>
 
 <script>
     function mostrarNombreArchivo(input) {

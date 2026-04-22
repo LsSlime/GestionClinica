@@ -1,3 +1,19 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+
 .header-paciente,
 .header-medico {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
@@ -29,7 +45,7 @@
     margin-right: 1.5rem;
 }
 
-.perfil-info h3 {
+.perfil-info h2 {
     font-weight: 700;
     margin-bottom: 0.25rem;
 }
@@ -53,10 +69,25 @@
     border-left: 4px solid #007bff;
 }
 
-.info-item label {
+.info-item .info-label {
     font-weight: 600;
     color: #495057;
     font-size: 0.9rem;
+    display: block;
+}
+
+.nav-link-custom {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.nav-link-custom:hover {
+    color: #007bff;
+    background-color: #f8f9fa;
 }
 
 .info-item p {
@@ -198,4 +229,71 @@
 
 .nav-links a:hover {
     color: #007bff;
+}
+
+/* --- Responsive Design --- */
+
+@media (max-width: 992px) {
+    .header-paciente,
+    .header-medico {
+        padding: 1.5rem 0;
+    }
+    
+    .header-medico .d-flex,
+    .header-paciente .d-flex {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .perfil-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .cita-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .estado-badge {
+        align-self: flex-start;
+    }
+
+    .cita-detalle {
+        grid-template-columns: 1fr;
+    }
+
+    .acciones-cita {
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-cita {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }

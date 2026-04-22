@@ -1,12 +1,12 @@
 body {
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .form-header {
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
     color: white;
     padding: 2rem;
     text-align: center;
