@@ -45,22 +45,22 @@
                                 <label for="paciente" class="form-label fw-bold">
                                     <i class="bi bi-person-badge text-muted" aria-hidden="true"></i> Paciente
                                 </label>
-                                <div th:if="${!isAdmin}" class="form-control bg-light d-flex align-items-center py-2" style="cursor: not-allowed;">
+                                <div th:if="${isAdmin != true}" class="form-control bg-light d-flex align-items-center py-2" style="cursor: not-allowed;">
                                     <i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
                                     <span class="fw-medium" th:text="|${cita.paciente.nombre} ${cita.paciente.apellido1}|">Nombre del Paciente</span>
                                 </div>
-                                <select th:if="${isAdmin}" class="form-select" th:field="*{paciente.id}" id="paciente" required>
+                                <select th:if="${isAdmin == true}" class="form-select" th:field="*{paciente.id}" id="paciente" required>
                                     <option value="0">-- Selecciona un paciente --</option>
                                     <option th:each="pac : ${pacientes}"
                                             th:value="${pac.id}"
                                             th:text="|${pac.nombre} ${pac.apellido1}|">
                                     </option>
                                 </select>
-                                <input th:if="${!isAdmin}" type="hidden" th:field="*{paciente.id}" />
+                                <input th:if="${isAdmin != true}" type="hidden" th:field="*{paciente.id}" />
                                 <div class="form-text mt-2 small text-muted">
                                     <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
-                                    <span th:if="${!isAdmin}">Estás agendando la cita para ti mismo</span>
-                                    <span th:if="${isAdmin}">Selecciona el paciente para el que deseas agendar la cita</span>
+                                    <span th:if="${isAdmin != true}">Estás agendando la cita para ti mismo</span>
+                                    <span th:if="${isAdmin == true}">Selecciona el paciente para el que deseas agendar la cita</span>
                                 </div>
                             </div>
                         </section>

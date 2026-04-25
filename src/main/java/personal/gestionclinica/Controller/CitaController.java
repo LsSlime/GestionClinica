@@ -56,8 +56,7 @@ public class CitaController {
             cita.setPaciente(new Paciente()); // Para admin, paciente vacío para seleccionar
         }
         cita.setMedico(new Medico());
-        prepararFormulario(model, cita, null, null);
-        model.addAttribute("isAdmin", "ADMIN".equals(usuarioLogueado.getRol()));
+        prepararFormulario(model, cita, null, null, "ADMIN".equals(usuarioLogueado.getRol()));
         return "Formulario_Agendar_Cita";
     }
 
@@ -97,7 +96,7 @@ public class CitaController {
             if (cita.getMedico() == null) {
                 cita.setMedico(new Medico());
             }
-            prepararFormulario(model, cita, especialidadId, "Solo puedes agendar citas para ti mismo.");
+            prepararFormulario(model, cita, especialidadId, "Solo puedes agendar citas para ti mismo.", "ADMIN".equals(usuarioLogueado.getRol()));
             return "Formulario_Agendar_Cita";
         }
         
@@ -115,7 +114,7 @@ public class CitaController {
             if (cita.getMedico() == null) {
                 cita.setMedico(new Medico());
             }
-            prepararFormulario(model, cita, especialidadId, e.getMessage());
+            prepararFormulario(model, cita, especialidadId, "Solo puedes agendar citas para ti mismo.", "ADMIN".equals(usuarioLogueado.getRol()));
             return "Formulario_Agendar_Cita";
         }
     }
@@ -176,7 +175,7 @@ public class CitaController {
         return "Menu_citas";
     }
 
-    private void prepararFormulario(Model model, Citas cita, Integer especialidadId, String error) {
+    private void prepararFormulario(Model model, Citas cita, Integer especialidadId, String error, boolean isAdmin) {
         Integer especialidadSeleccionada = especialidadId;
         if (especialidadSeleccionada == null
                 && cita.getMedico() != null
@@ -191,6 +190,7 @@ public class CitaController {
         model.addAttribute("pacientes", pacienteService.listarTodosLosPacientes());
         model.addAttribute("especialidades", especialidadService.listarTodos());
         model.addAttribute("especialidadSeleccionada", especialidadSeleccionada);
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute(
                 "medicosDisponibles",
                 especialidadSeleccionada != null && especialidadSeleccionada > 0
