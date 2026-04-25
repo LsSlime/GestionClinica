@@ -8,6 +8,7 @@ import personal.gestionclinica.model.Usuario;
 @Controller
 public class AdministradorController {
 
+    // Muestra el menú principal del administrador tras validar sesión
     @GetMapping("/admin/menu")
     public String mostrarMenuAdministrador(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -17,6 +18,7 @@ public class AdministradorController {
         return "Menu_Administrador";
     }
 
+    // Carga la página de inicio o menú principal del sitio
     @GetMapping({"/", "/menu"})
     public String mostrarMenuPrincipal() {
         return "MenuPrincipal";

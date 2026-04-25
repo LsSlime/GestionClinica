@@ -27,6 +27,7 @@ public class EspecialidadController {
         this.especialidadService = especialidadService;
     }
 
+    // Lista todas las especialidades disponibles para el administrador
     @GetMapping
     public String listarEspecialidades(HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -37,6 +38,7 @@ public class EspecialidadController {
         return "Menu_Crear_Especialidad";
     }
 
+    // Muestra el formulario para registrar una nueva especialidad
     @GetMapping("/nuevo")
     public String mostrarFormulario(HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -47,9 +49,7 @@ public class EspecialidadController {
         return "Formulario_Crear_Especialidad";
     }
 
-    //=========== METODO PARA GUARDAR LA ESPECIALIDAD 
-
-
+    //=========== METODO PARA GUARDAR LA ESPECIALIDAD (con o sin imagen)
     @PostMapping("/guardar")
     public String guardarEspecialidad(@ModelAttribute Especialidad especialidad, 
                                     @RequestParam(value = "archivo", required = false) MultipartFile archivo,

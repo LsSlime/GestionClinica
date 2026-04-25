@@ -38,6 +38,7 @@ public class CitaController {
 
 
 
+    // Muestra el formulario para que el paciente agende una cita
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -60,6 +61,7 @@ public class CitaController {
         return "Formulario_Agendar_Cita";
     }
 
+    // Lista todas las citas existentes (Solo Admin)
     @GetMapping
     public String listarCitas(@RequestParam(name = "q", required = false) String q, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -74,6 +76,7 @@ public class CitaController {
 
     //======== METODO PARA GUARDAR LA CITA SEGUN EL USUARIO LOGEADO Y EL ROL DE ESTE
 
+    // Guarda la cita tras validar que el paciente agende para sí mismo
     @PostMapping("/guardar")
     public String guardarCita(@ModelAttribute Citas cita,
                               @RequestParam(name = "especialidadId", required = false) Integer especialidadId,
@@ -117,8 +120,7 @@ public class CitaController {
         }
     }
 
-    //============= CITAS POR CADA PACIENTE
-
+    //============= LISTA LAS CITAS DE UN PACIENTE ESPECÍFICO
     @GetMapping("/paciente/{id}")
     public String citasPorPaciente(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -130,8 +132,7 @@ public class CitaController {
     }
 
 
-    //============= CANCELAR CITAS, REVISA EL USUARIO LOGEADO SEGUN SI ES MEDICO O PACIENTES DESPUES DE CANCELAR
-
+    //============= CANCELA UNA CITA (protección: no cancela citas completadas)
     @PostMapping("/cancelar/{id}")
     public String cancelarCita(@PathVariable int id, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -164,6 +165,7 @@ public class CitaController {
         return "redirect:/citas";
     }
 
+    //============= LISTA LAS CITAS DE UN MÉDICO ESPECÍFICO
     @GetMapping("/medico/{id}")
     public String citasPorMedico(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -200,6 +202,7 @@ public class CitaController {
         }
     }
 
+    // Muestra el formulario para que el médico complete los detalles de la consulta
     @GetMapping("/completar/{id}")
     public String mostrarFormularioCompletar(@PathVariable int id, Model model, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -219,6 +222,7 @@ public class CitaController {
         return "Formulario_Completar_Cita";
     }
 
+    // Procesa el completado de la cita y guarda el diagnóstico
     @PostMapping("/completar")
     public String completarCita(@ModelAttribute Citas cita, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");

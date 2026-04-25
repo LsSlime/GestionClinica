@@ -24,6 +24,7 @@ public class PacienteController {
     }
 
 
+    // Muestra la lista de pacientes con opción de búsqueda (Solo Admin)
     @GetMapping("/pacientes")
     public String listarPacientes(@RequestParam(name = "q", required = false)String q, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -36,6 +37,7 @@ public class PacienteController {
         return "Menu_Crear_Paciente";
     }
 
+    // Muestra el panel personal del paciente con sus datos y citas
     @GetMapping("/paciente/menu")
     public String mostrarMenuPaciente(HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -53,12 +55,14 @@ public class PacienteController {
         return "Menu_Pacientes";
     }
 
+    // Muestra el formulario para registrar un nuevo paciente
     @GetMapping("/pacientes/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("paciente", new Paciente());
         return "Formulario_Crear_Paciente";
     }
 
+    // Registra un nuevo paciente en el sistema
     @PostMapping("/pacientes/guardar")
     public String guardarPaciente(@ModelAttribute Paciente paciente, HttpSession session, Model model) {
         try {
@@ -77,6 +81,7 @@ public class PacienteController {
         }
     }
 
+    // Actualiza la información de un paciente existente
     @PostMapping("/pacientes/actualizar")
     public String actualizarPaciente(@ModelAttribute Paciente paciente, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -99,6 +104,7 @@ public class PacienteController {
         }
     }
 
+    // Carga el formulario con los datos del paciente para editar
     @GetMapping("/pacientes/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -113,6 +119,7 @@ public class PacienteController {
         return "Formulario_Crear_Paciente";
     }
 
+    // Elimina un paciente del sistema (Solo Admin)
     @PostMapping("/pacientes/eliminar/{id}")
     public String eliminarPaciente(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");

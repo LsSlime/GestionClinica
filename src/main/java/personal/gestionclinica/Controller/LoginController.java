@@ -31,6 +31,7 @@ public class LoginController {
     }
 
 
+    // Carga la página de login o redirige si ya hay sesión
     @GetMapping("/login")
     public String mostrarLogin(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -41,6 +42,7 @@ public class LoginController {
     }
 
 
+    // Procesa las credenciales y crea la sesión del usuario
     @PostMapping("/login")
     public String iniciarSesion(@RequestParam String email,
                                 @RequestParam String dni,
@@ -63,12 +65,14 @@ public class LoginController {
         }
     }
 
+    // Finaliza la sesión actual y redirige al login
     @GetMapping("/logout")
     public String cerrarSesion(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
     }
 
+    // Determina a qué menú enviar al usuario según su rol (Admin, Medico o Paciente)
     private String redirigirSegunRol(Usuario usuario) {
         if ("ADMIN".equals(usuario.getRol())) {
             return "redirect:/admin/menu";

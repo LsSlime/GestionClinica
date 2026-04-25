@@ -28,6 +28,7 @@ public class MedicoController {
         this.citaService = citaService;
     }
 
+    // Lista todos los médicos registrados (Solo Admin)
     @GetMapping("/medicos")
     public String listarMedicos(@RequestParam(name = "q", required = false) String q, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -39,6 +40,7 @@ public class MedicoController {
         return "Menu_Crear_Medico";
     }
 
+    // Muestra el panel del médico con su agenda de citas
     @GetMapping("/medicos/menu")
     public String mostrarMenuMedico(HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -56,6 +58,7 @@ public class MedicoController {
         return "Menu_Medicos";
     }
 
+    // Muestra el formulario para registrar un nuevo médico
     @GetMapping("/medicos/nuevo")
     public String mostrarFormulario(HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -69,6 +72,7 @@ public class MedicoController {
         return "Formulario_Crear_Medico";
     }
 
+    // Guarda un nuevo médico asociándolo a una especialidad
     @PostMapping("/medicos/guardar")
     public String guardarMedico(@ModelAttribute Medico medico, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -88,6 +92,7 @@ public class MedicoController {
         }
     }
 
+    // Actualiza los datos de un médico existente
     @PostMapping("/medicos/actualizar")
     public String actualizarMedico(@ModelAttribute Medico medico, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -120,6 +125,7 @@ public class MedicoController {
         }
     }
 
+    // Carga los datos del médico para su edición
     @GetMapping("/medicos/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -136,6 +142,7 @@ public class MedicoController {
         return "Formulario_Crear_Medico";
     }
 
+    // Elimina a un médico del sistema (Solo Admin)
     @PostMapping("/medicos/eliminar/{id}")
     public String eliminarMedico(@PathVariable int id, HttpSession session, Model model) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -152,6 +159,7 @@ public class MedicoController {
         }
     }
 
+    // Retorna una lista de médicos filtrada por especialidad (AJAX)
     @GetMapping("/medicos/por-especialidad/{id}")
     @ResponseBody
     public java.util.List<Medico> listarMedicosPorEspecialidad(@PathVariable int id) {
