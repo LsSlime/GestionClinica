@@ -25,7 +25,12 @@ public class PacienteController {
 
 
     @GetMapping("/pacientes")
-    public String listarPacientes(@RequestParam(name = "q", required = false)String q, Model model) {
+    public String listarPacientes(@RequestParam(name = "q", required = false)String q, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("q", q);
         model.addAttribute("pacientes", pacienteService.buscarPacientes(q));
         return "Menu_Crear_Paciente";
@@ -55,10 +60,16 @@ public class PacienteController {
     }
 
     @PostMapping("/pacientes/guardar")
-    public String guardarPaciente(@ModelAttribute Paciente paciente, Model model) {
+    public String guardarPaciente(@ModelAttribute Paciente paciente, HttpSession session, Model model) {
         try {
             pacienteService.guardarPaciente(paciente);
-            return "redirect:/pacientes";
+            
+            Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+            if (usuarioLogueado != null && "ADMIN".equals(usuarioLogueado.getRol())) {
+                return "redirect:/pacientes";
+            }
+            
+            return "redirect:/?success=registro";
         } catch (RuntimeException e) {
             model.addAttribute("paciente", paciente);
             model.addAttribute("error", e.getMessage());
@@ -67,7 +78,11 @@ public class PacienteController {
     }
 
     @PostMapping("/pacientes/actualizar")
-    public String actualizarPaciente(@ModelAttribute Paciente paciente, Model model) {
+    public String actualizarPaciente(@ModelAttribute Paciente paciente, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             pacienteService.actualizarPaciente(paciente);
             return "redirect:/pacientes";
@@ -85,7 +100,11 @@ public class PacienteController {
     }
 
     @GetMapping("/pacientes/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
+    public String mostrarFormularioEditar(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         Paciente paciente = pacienteService.buscarPacientePorId(id);
         if (paciente == null) {
             return "redirect:/pacientes";
@@ -95,7 +114,11 @@ public class PacienteController {
     }
 
     @PostMapping("/pacientes/eliminar/{id}")
-    public String eliminarPaciente(@PathVariable int id, Model model) {
+    public String eliminarPaciente(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             pacienteService.eliminarPaciente(id);
             return "redirect:/pacientes";

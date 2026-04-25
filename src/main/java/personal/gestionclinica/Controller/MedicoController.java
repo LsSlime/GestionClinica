@@ -29,7 +29,11 @@ public class MedicoController {
     }
 
     @GetMapping("/medicos")
-    public String listarMedicos(@RequestParam(name = "q", required = false) String q, Model model) {
+    public String listarMedicos(@RequestParam(name = "q", required = false) String q, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         model.addAttribute("q", q);
         model.addAttribute("medicos", medicoService.buscarMedicos(q));
         return "Menu_Crear_Medico";
@@ -53,7 +57,11 @@ public class MedicoController {
     }
 
     @GetMapping("/medicos/nuevo")
-    public String mostrarFormulario(Model model) {
+    public String mostrarFormulario(HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         Medico medico = new Medico();
         medico.setEspecialidad(new Especialidad());
         model.addAttribute("medico", medico);
@@ -62,7 +70,11 @@ public class MedicoController {
     }
 
     @PostMapping("/medicos/guardar")
-    public String guardarMedico(@ModelAttribute Medico medico, Model model) {
+    public String guardarMedico(@ModelAttribute Medico medico, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             medico.setEspecialidad(obtenerEspecialidadValida(obtenerEspecialidadId(medico)));
             medicoService.guardarMedico(medico);
@@ -77,7 +89,11 @@ public class MedicoController {
     }
 
     @PostMapping("/medicos/actualizar")
-    public String actualizarMedico(@ModelAttribute Medico medico, Model model) {
+    public String actualizarMedico(@ModelAttribute Medico medico, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             Medico existente = medicoService.obtenerMedicoPorId(medico.getId());
             if (existente == null) {
@@ -105,7 +121,11 @@ public class MedicoController {
     }
 
     @GetMapping("/medicos/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
+    public String mostrarFormularioEditar(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         Medico medico = medicoService.obtenerMedicoPorId(id);
         if (medico == null) {
             return "redirect:/medicos";
@@ -117,7 +137,11 @@ public class MedicoController {
     }
 
     @PostMapping("/medicos/eliminar/{id}")
-    public String eliminarMedico(@PathVariable int id, Model model) {
+    public String eliminarMedico(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             medicoService.eliminarMedico(id);
             return "redirect:/medicos";

@@ -1,5 +1,5 @@
 package personal.gestionclinica.Controller;
-
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import personal.gestionclinica.model.Especialidad;
+import personal.gestionclinica.model.Usuario;
 import personal.gestionclinica.service.EspecialidadService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,21 +28,37 @@ public class EspecialidadController {
     }
 
     @GetMapping
-    public String listarEspecialidades(Model model) {
+    public String listarEspecialidades(HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         model.addAttribute("especialidades", especialidadService.listarTodos());
         return "Menu_Crear_Especialidad";
     }
 
     @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model) {
+    public String mostrarFormulario(HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         model.addAttribute("especialidad", new Especialidad());
         return "Formulario_Crear_Especialidad";
     }
 
+    //=========== METODO PARA GUARDAR LA ESPECIALIDAD 
+
+
     @PostMapping("/guardar")
     public String guardarEspecialidad(@ModelAttribute Especialidad especialidad, 
                                     @RequestParam(value = "archivo", required = false) MultipartFile archivo,
+                                    HttpSession session,
                                     Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         try {
             if (archivo != null && !archivo.isEmpty()) {
                 especialidadService.guardarEspecialidadConImagen(especialidad, archivo);

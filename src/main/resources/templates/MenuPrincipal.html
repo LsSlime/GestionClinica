@@ -18,7 +18,10 @@
                     <img src="/imgs/LogoTipoFINAL.png" alt="Logotipo de Gestor Salud" style="height: 40px; margin-right: 10px;">
                     <span>Gestor Salud</span>
                 </a>
-                <div class="ms-auto">
+                <div class="ms-auto d-flex gap-2">
+                    <a th:href="@{/pacientes/nuevo}" class="btn btn-light btn-sm text-primary fw-bold">
+                        <i class="bi bi-person-plus-fill" aria-hidden="true"></i> Registrarse
+                    </a>
                     <a th:href="@{/login}" class="btn btn-outline-light btn-sm">
                         <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Iniciar sesion
                     </a>
@@ -26,15 +29,28 @@
             </div>
         </nav>
 
-        <section class="hero-section" aria-labelledby="titulo-principal">
-            <div class="container hero-content">
-                <img src="/imgs/LogoTipoFINAL.png" alt="Logotipo principal de Gestor Salud">
-                <h1 id="titulo-principal">Gestor Salud</h1>
-                <p>Sistema integral para la gestion de citas, medicos y pacientes de tu clinica</p>
-                <a th:href="@{/login}" class="btn btn-hero">
-                    <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i> Acceder al sistema
-                </a>
+        <div th:if="${param.success}" class="container mt-3">
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span th:if="${param.success[0] == 'registro'}">¡Registro completado con éxito! Ahora puedes iniciar sesión.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+        </div>
+
+        <section class="hero-section" aria-labelledby="titulo-principal">
+                <div class="container hero-content">
+                    <img src="/imgs/LogoTipoFINAL.png" alt="Logotipo principal de Gestor Salud">
+                    <h1 id="titulo-principal">Gestor Salud</h1>
+                    <p>Sistema integral para la gestion de citas, medicos y pacientes de tu clinica</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a th:href="@{/login}" class="btn btn-hero">
+                            <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i> Acceder al sistema
+                        </a>
+                        <a th:href="@{/pacientes/nuevo}" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                            <i class="bi bi-person-plus-fill me-2" aria-hidden="true"></i> Registrarse
+                        </a>
+                    </div>
+                </div>
         </section>
     </header>
 

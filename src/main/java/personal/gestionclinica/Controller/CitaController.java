@@ -34,6 +34,10 @@ public class CitaController {
         this.especialidadService = especialidadService;
     }
 
+    //CON EL HTTP Session se guarda la sesion para el login hasta que se haga un logout
+
+
+
     @GetMapping("/nueva")
     public String mostrarFormulario(Model model, HttpSession session) {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -57,11 +61,18 @@ public class CitaController {
     }
 
     @GetMapping
-    public String listarCitas(@RequestParam(name = "q", required = false) String q, Model model) {
+    public String listarCitas(@RequestParam(name = "q", required = false) String q, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !"ADMIN".equals(usuarioLogueado.getRol())) {
+            return "redirect:/login";
+        }
         model.addAttribute("q", q);
         model.addAttribute("citas", citaService.buscarCitas(q));
         return "Menu_citas";
     }
+
+
+    //======== METODO PARA GUARDAR LA CITA SEGUN EL USUARIO LOGEADO Y EL ROL DE ESTE
 
     @PostMapping("/guardar")
     public String guardarCita(@ModelAttribute Citas cita,
@@ -106,11 +117,20 @@ public class CitaController {
         }
     }
 
+    //============= CITAS POR CADA PACIENTE
+
     @GetMapping("/paciente/{id}")
-    public String citasPorPaciente(@PathVariable int id, Model model) {
+    public String citasPorPaciente(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || (!"ADMIN".equals(usuarioLogueado.getRol()) && usuarioLogueado.getId() != id)) {
+            return "redirect:/login";
+        }
         model.addAttribute("citas", citaService.obtenerCitasPorPaciente(id));
         return "Menu_citas";
     }
+
+
+    //============= CANCELAR CITAS, REVISA EL USUARIO LOGEADO SEGUN SI ES MEDICO O PACIENTES DESPUES DE CANCELAR
 
     @PostMapping("/cancelar/{id}")
     public String cancelarCita(@PathVariable int id, HttpSession session) {
@@ -145,7 +165,11 @@ public class CitaController {
     }
 
     @GetMapping("/medico/{id}")
-    public String citasPorMedico(@PathVariable int id, Model model) {
+    public String citasPorMedico(@PathVariable int id, HttpSession session, Model model) {
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || (!"ADMIN".equals(usuarioLogueado.getRol()) && usuarioLogueado.getId() != id)) {
+            return "redirect:/login";
+        }
         model.addAttribute("citas", citaService.obtenerCitasPorMedico(id));
         return "Menu_citas";
     }

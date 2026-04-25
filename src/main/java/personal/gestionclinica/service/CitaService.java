@@ -30,6 +30,9 @@ public class CitaService {
         if (cita.getFechaHora() == null) {
             throw new IllegalArgumentException("La fecha y hora son obligatorias.");
         }
+        if (cita.getFechaHora().isBefore(java.time.LocalDateTime.now())) {
+            throw new IllegalArgumentException("La fecha de la cita no puede estar en el pasado.");
+        }
         citaDAO.guardarCita(cita);
     }
 
